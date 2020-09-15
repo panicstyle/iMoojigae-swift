@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //create the notificationCenter
+        let center = UNUserNotificationCenter.current()
+        var options: UNAuthorizationOptions = [.alert, .sound]
+        if #available(iOS 12.0, *) {
+            options.insert(.providesAppNotificationSettings)
+        }
+        center.requestAuthorization(options: options) { (granted, error) in
+            // Enable or disable features based on authorization
+
+            }
+            application.registerForRemoteNotifications()
+        
         return true
     }
 
@@ -41,6 +55,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // let chars = UnsafePointer<CChar>((deviceToken as NSData).bytes)
+        var token = ""
 
+        for i in 0..<deviceToken.count {
+            //token += String(format: "%02.2hhx", arguments: [chars[i]])
+            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
+
+        print("Registration succeeded!")
+        print("Token: ", token)
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let fullPath = paths[0].appendingPathComponent("token.dat")
+        let setTokenStorage = SetTokenStorage.init(token: token)
+        // Archive
+        if let dataToBeArchived = try? NSKeyedArchiver.archivedData(withRootObject: setTokenStorage, requiringSecureCoding: false) {
+            try? dataToBeArchived.write(to: fullPath)
+        }
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Registration failed!")
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
+        print("Handle push from foreground")
+        // custom code to handle push while app is in the foreground
+        print("\(notification.request.content.userInfo)")
+     }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("Handle push from background or closed")
+        // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background
+        print("\(response.notification.request.content.userInfo)")
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    }
 }
 

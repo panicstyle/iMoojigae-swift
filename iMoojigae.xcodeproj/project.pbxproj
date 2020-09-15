@@ -7,16 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC2911C7250B355300E61269 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2911C6250B355300E61269 /* SetView.swift */; };
+		EC2911C9250B431600E61269 /* LoginToService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2911C8250B431600E61269 /* LoginToService.swift */; };
 		EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCDA24A754A400E2D337 /* AppDelegate.swift */; };
 		EC86FCE224A754A400E2D337 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE024A754A400E2D337 /* Main.storyboard */; };
 		EC86FCE424A754A400E2D337 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE324A754A400E2D337 /* Assets.xcassets */; };
 		EC86FCE724A754A400E2D337 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE524A754A400E2D337 /* LaunchScreen.storyboard */; };
 		EC86FCF224A754A500E2D337 /* iMoojigaeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCF124A754A500E2D337 /* iMoojigaeTests.swift */; };
 		EC86FCFD24A78EE800E2D337 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCFC24A78EE800E2D337 /* MainView.swift */; };
-		EC86FCFF24A78F1F00E2D337 /* MainData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCFE24A78F1F00E2D337 /* MainData.swift */; };
 		EC86FD2F24A79AD000E2D337 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */; };
-		ECD9B71224ECB40B00B1B978 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71124ECB40B00B1B978 /* NetworkHandler.swift */; };
-		ECD9B71624ECC1A700B1B978 /* ReceviceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71524ECC1A700B1B978 /* ReceviceData.swift */; };
+		ECA7C1A8250D12C50036D825 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA7C1A7250D12C50036D825 /* ItemView.swift */; };
+		ECC42FF0250F09BB006E9F67 /* RecentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC42FEF250F09BB006E9F67 /* RecentView.swift */; };
+		ECC42FF2250F1CA6006E9F67 /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC42FF1250F1CA6006E9F67 /* LinkView.swift */; };
+		ECC42FF4250F32D6006E9F67 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC42FF3250F32D6006E9F67 /* ArticleView.swift */; };
+		ECD7FF4124F6B78D0008F0F3 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */; };
+		ECD9B71224ECB40B00B1B978 /* HttpSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */; };
+		ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71524ECC1A700B1B978 /* AppData.swift */; };
+		ECD9B71824ED007300B1B978 /* GlobalConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71724ED007300B1B978 /* GlobalConst.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EC2911C6250B355300E61269 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
+		EC2911C8250B431600E61269 /* LoginToService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToService.swift; sourceTree = "<group>"; };
 		EC86FCD724A754A400E2D337 /* iMoojigae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMoojigae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC86FCDA24A754A400E2D337 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC86FCE124A754A400E2D337 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -40,10 +49,15 @@
 		EC86FCF124A754A500E2D337 /* iMoojigaeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMoojigaeTests.swift; sourceTree = "<group>"; };
 		EC86FCF324A754A500E2D337 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC86FCFC24A78EE800E2D337 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		EC86FCFE24A78F1F00E2D337 /* MainData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainData.swift; sourceTree = "<group>"; };
 		EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ECD9B71124ECB40B00B1B978 /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
-		ECD9B71524ECC1A700B1B978 /* ReceviceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceviceData.swift; sourceTree = "<group>"; };
+		ECA7C1A7250D12C50036D825 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
+		ECC42FEF250F09BB006E9F67 /* RecentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentView.swift; sourceTree = "<group>"; };
+		ECC42FF1250F1CA6006E9F67 /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
+		ECC42FF3250F32D6006E9F67 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
+		ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
+		ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpSessionRequest.swift; sourceTree = "<group>"; };
+		ECD9B71524ECC1A700B1B978 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		ECD9B71724ED007300B1B978 /* GlobalConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConst.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,16 +99,23 @@
 		EC86FCD924A754A400E2D337 /* iMoojigae */ = {
 			isa = PBXGroup;
 			children = (
+				ECD9B71524ECC1A700B1B978 /* AppData.swift */,
 				EC86FCDA24A754A400E2D337 /* AppDelegate.swift */,
-				EC86FCE024A754A400E2D337 /* Main.storyboard */,
+				ECC42FF3250F32D6006E9F67 /* ArticleView.swift */,
 				EC86FCE324A754A400E2D337 /* Assets.xcassets */,
-				EC86FCE524A754A400E2D337 /* LaunchScreen.storyboard */,
+				ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */,
+				ECD9B71724ED007300B1B978 /* GlobalConst.swift */,
+				ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */,
 				EC86FCE824A754A400E2D337 /* Info.plist */,
+				ECA7C1A7250D12C50036D825 /* ItemView.swift */,
+				EC86FCE524A754A400E2D337 /* LaunchScreen.storyboard */,
+				ECC42FF1250F1CA6006E9F67 /* LinkView.swift */,
+				EC2911C8250B431600E61269 /* LoginToService.swift */,
+				EC86FCE024A754A400E2D337 /* Main.storyboard */,
 				EC86FCFC24A78EE800E2D337 /* MainView.swift */,
-				EC86FCFE24A78F1F00E2D337 /* MainData.swift */,
+				ECC42FEF250F09BB006E9F67 /* RecentView.swift */,
 				EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */,
-				ECD9B71124ECB40B00B1B978 /* NetworkHandler.swift */,
-				ECD9B71524ECC1A700B1B978 /* ReceviceData.swift */,
+				EC2911C6250B355300E61269 /* SetView.swift */,
 			);
 			path = iMoojigae;
 			sourceTree = "<group>";
@@ -158,6 +179,7 @@
 				TargetAttributes = {
 					EC86FCD624A754A400E2D337 = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1170;
 					};
 					EC86FCEC24A754A500E2D337 = {
 						CreatedOnToolsVersion = 11.5;
@@ -209,12 +231,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECD9B71224ECB40B00B1B978 /* NetworkHandler.swift in Sources */,
+				ECD7FF4124F6B78D0008F0F3 /* BoardView.swift in Sources */,
+				ECD9B71224ECB40B00B1B978 /* HttpSessionRequest.swift in Sources */,
 				EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */,
-				EC86FCFF24A78F1F00E2D337 /* MainData.swift in Sources */,
-				ECD9B71624ECC1A700B1B978 /* ReceviceData.swift in Sources */,
+				ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */,
 				EC86FCFD24A78EE800E2D337 /* MainView.swift in Sources */,
+				ECD9B71824ED007300B1B978 /* GlobalConst.swift in Sources */,
+				ECC42FF0250F09BB006E9F67 /* RecentView.swift in Sources */,
 				EC86FD2F24A79AD000E2D337 /* SceneDelegate.swift in Sources */,
+				ECA7C1A8250D12C50036D825 /* ItemView.swift in Sources */,
+				EC2911C7250B355300E61269 /* SetView.swift in Sources */,
+				ECC42FF2250F1CA6006E9F67 /* LinkView.swift in Sources */,
+				ECC42FF4250F32D6006E9F67 /* ArticleView.swift in Sources */,
+				EC2911C9250B431600E61269 /* LoginToService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -360,7 +389,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -374,6 +403,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8PG9C7Q5V8;
 				INFOPLIST_FILE = "$(SRCROOT)/iMoojigae/Info.plist";
@@ -383,6 +413,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.panicstyle.iMoojigae;
 				PRODUCT_NAME = iMoojigae;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -392,6 +423,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8PG9C7Q5V8;
 				INFOPLIST_FILE = "$(SRCROOT)/iMoojigae/Info.plist";
