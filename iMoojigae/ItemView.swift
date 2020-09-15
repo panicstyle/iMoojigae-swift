@@ -7,22 +7,33 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
     
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
+    @IBOutlet var bannerView: GADBannerView!
     var boardTitle: String = ""
     var boardType: String = ""
     var boardId: String = ""
+    
     var itemList = [Item]()
     var nPage: Int = 1
     var isEndPage = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.title = boardTitle
+        
+        // GoogleMobileAds
+        self.bannerView.adUnitID = GlobalConst.AdUnitID
+        self.bannerView.rootViewController = self
+        self.bannerView.load(GADRequest())
+        
+        // Load the data.
         loadData()
     }
 

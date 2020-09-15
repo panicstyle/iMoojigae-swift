@@ -8,21 +8,23 @@
 
 import UIKit
 import WebKit
+import GoogleMobileAds
 
 class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate {
     
     //MARK: Properties
     
-    @IBOutlet var tableView : UITableView!    
+    @IBOutlet var tableView : UITableView!
+    @IBOutlet var bannerView: GADBannerView!
     var boardId: String = ""
     var boardNo: String = ""
 
-    private var articleData = ArticleData()
-    private var cellContent: UITableViewCell?
-    private var webView: WKWebView?
-    private var dicAttach: Dictionary = [String: String]()
+    var articleData = ArticleData()
+    var cellContent: UITableViewCell?
+    var webView: WKWebView?
+    var dicAttach: Dictionary = [String: String]()
     var contentHeight: CGFloat = 0
-    private var isDarkMode: Bool = false
+    var isDarkMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +45,12 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         self.cellContent = UITableViewCell()
         self.webView = WKWebView()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        // GoogleMobileAds
+        self.bannerView.adUnitID = GlobalConst.AdUnitID
+        self.bannerView.rootViewController = self
+        self.bannerView.load(GADRequest())
+        
+        // Load the data.
         self.loadData()
     }
 

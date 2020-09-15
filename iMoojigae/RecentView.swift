@@ -7,36 +7,50 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
-class RecentView: UITableViewController, HttpSessionRequestDelegate {
+class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
 
+    //MARK: Properties
+    
+    @IBOutlet var tableView : UITableView!
+    @IBOutlet var bannerView: GADBannerView!
     var recent: String = ""
     var type: String = ""
+    
     var itemList = [RecentItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if self.type == "list" {
             self.title = "최신글보기"
         } else {
             self.title = "최신댓글보기"
         }
+        
+        // GoogleMobileAds
+        self.bannerView.adUnitID = GlobalConst.AdUnitID
+        self.bannerView.rootViewController = self
+        self.bannerView.load(GADRequest())
+        
+        // Load the data.
         loadData()
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return itemList.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifierItem = "Item"

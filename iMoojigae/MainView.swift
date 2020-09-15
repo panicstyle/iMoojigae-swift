@@ -16,17 +16,20 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
     
     @IBOutlet var tableView : UITableView!
     @IBOutlet var bannerView: GADBannerView!
+    
     var mainData = MainData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "무지개교육마을"
-        // Load the data.
+        
+        // GoogleMobileAds
         self.bannerView.adUnitID = GlobalConst.AdUnitID
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
         
+        // Load the data.
         loadData()
     }
 
