@@ -9,12 +9,13 @@
 import UIKit
 import os.log
 
-class BoardView : UITableViewController, HttpSessionRequestDelegate {
-    
+class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
+
     //MARK: Properties
-    
-    var menuName: String? = ""
-    var menuId: String? = ""
+
+    @IBOutlet var tableView : UITableView!
+    var menuName: String = ""
+    var menuId: String = ""
     var boardData = BoardData()
 
     override func viewDidLoad() {
@@ -32,16 +33,16 @@ class BoardView : UITableViewController, HttpSessionRequestDelegate {
 
     //MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return boardData?.boardList.count ?? 0
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIRecent = "Recent"
@@ -66,7 +67,7 @@ class BoardView : UITableViewController, HttpSessionRequestDelegate {
 
     
     // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
@@ -89,9 +90,9 @@ class BoardView : UITableViewController, HttpSessionRequestDelegate {
                 fatalError("The selected cell is not being displayed by the table")
             }
             let board = self.boardData?.boardList[indexPath.row]
-            itemView.boardTitle = board?.title
-            itemView.boardType = board?.type
-            itemView.boardId = board?.boardId
+            itemView.boardTitle = board!.title
+            itemView.boardType = board!.type
+            itemView.boardId = board!.boardId
         case "Recent":
             guard let recentView = segue.destination as? RecentView else {
                 fatalError("Unexpected destination: \(segue.destination)")
@@ -99,6 +100,17 @@ class BoardView : UITableViewController, HttpSessionRequestDelegate {
             
             recentView.recent = self.boardData!.recent
             recentView.type = "list"
+        case "Link":
+            guard let linkView = segue.destination as? LinkView else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let indexPath = tableView.indexPathForSelectedRow else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            let board = self.boardData?.boardList[indexPath.row]
+            linkView.linkName = board!.title
+            linkView.link = board!.boardId
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
@@ -130,6 +142,6 @@ class BoardView : UITableViewController, HttpSessionRequestDelegate {
     private func loadData() {
         let httpSessionRequest = HttpSessionRequest()
         httpSessionRequest.delegate = self
-        httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-menu.do?comm=" + menuId!, param: nil, referer: "")
+        httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-menu.do?comm=" + self.menuId, param: nil, referer: "")
     }
 }

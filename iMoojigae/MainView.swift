@@ -8,11 +8,14 @@
 
 import UIKit
 import os.log
+import GoogleMobileAds
 
-class MainView : UITableViewController, HttpSessionRequestDelegate, LoginToServiceDelegate {
+class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, LoginToServiceDelegate {
     
     //MARK: Properties
     
+    @IBOutlet var tableView : UITableView!
+    @IBOutlet var bannerView: GADBannerView!
     var mainData = MainData()
 
     override func viewDidLoad() {
@@ -20,6 +23,10 @@ class MainView : UITableViewController, HttpSessionRequestDelegate, LoginToServi
         
         self.title = "무지개교육마을"
         // Load the data.
+        self.bannerView.adUnitID = GlobalConst.AdUnitID
+        self.bannerView.rootViewController = self
+        self.bannerView.load(GADRequest())
+        
         loadData()
     }
 
@@ -30,16 +37,16 @@ class MainView : UITableViewController, HttpSessionRequestDelegate, LoginToServi
 
     //MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return mainData?.menuList.count ?? 0
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellMenu = "Menu"
@@ -63,12 +70,6 @@ class MainView : UITableViewController, HttpSessionRequestDelegate, LoginToServi
         return cell
     }
     
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    
     //MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -89,8 +90,8 @@ class MainView : UITableViewController, HttpSessionRequestDelegate, LoginToServi
                 fatalError("The selected cell is not being displayed by the table")
             }
             let menuData = mainData?.menuList[indexPath.row]
-            boardView.menuName = menuData?.title
-            boardView.menuId = menuData?.value
+            boardView.menuName = menuData!.title
+            boardView.menuId = menuData!.value
         case "Recent":
             guard let recentView = segue.destination as? RecentView else {
                 fatalError("Unexpected destination: \(segue.destination)")

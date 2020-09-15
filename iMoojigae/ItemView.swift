@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ItemView: UITableViewController, HttpSessionRequestDelegate {
+class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
     
     //MARK: Properties
     
-    var boardTitle: String? = ""
-    var boardType: String? = ""
-    var boardId: String? = ""
+    @IBOutlet var tableView : UITableView!
+    var boardTitle: String = ""
+    var boardType: String = ""
+    var boardId: String = ""
     var itemList = [Item]()
     var nPage: Int = 1
     var isEndPage = false
@@ -27,17 +28,17 @@ class ItemView: UITableViewController, HttpSessionRequestDelegate {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return itemList.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifierItem = "Item"
@@ -142,6 +143,6 @@ class ItemView: UITableViewController, HttpSessionRequestDelegate {
         let sPage: String = String(nPage)
         let httpSessionRequest = HttpSessionRequest()
         httpSessionRequest.delegate = self
-        httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-list.do?boardId=" + boardId! + "&page=" + sPage, param: nil, referer: "")
+        httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-list.do?boardId=" + self.boardId + "&page=" + sPage, param: nil, referer: "")
     }
 }

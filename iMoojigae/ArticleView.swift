@@ -9,8 +9,11 @@
 import UIKit
 import WebKit
 
-class ArticleView: UITableViewController, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate {
-
+class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate {
+    
+    //MARK: Properties
+    
+    @IBOutlet var tableView : UITableView!    
     var boardId: String = ""
     var boardNo: String = ""
 
@@ -50,12 +53,12 @@ class ArticleView: UITableViewController, HttpSessionRequestDelegate, WKUIDelega
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         switch section {
         case 0:
@@ -65,7 +68,7 @@ class ArticleView: UITableViewController, HttpSessionRequestDelegate, WKUIDelega
         }
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String {
         // #warning Incomplete implementation, return the number of rows
         switch section {
         case 0:
@@ -75,7 +78,7 @@ class ArticleView: UITableViewController, HttpSessionRequestDelegate, WKUIDelega
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 return UITableView.automaticDimension
@@ -89,7 +92,7 @@ class ArticleView: UITableViewController, HttpSessionRequestDelegate, WKUIDelega
         }
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellTitle = "Title"

@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F5AE3D72F119105F4A9D50B /* Pods_iMoojigae.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F3D75F31543880F85216ED /* Pods_iMoojigae.framework */; };
+		C099B148BDB59210D943124B /* Pods_iMoojigaeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB0AF309C625DB59B0BA882 /* Pods_iMoojigaeTests.framework */; };
 		EC2911C7250B355300E61269 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2911C6250B355300E61269 /* SetView.swift */; };
 		EC2911C9250B431600E61269 /* LoginToService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2911C8250B431600E61269 /* LoginToService.swift */; };
 		EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCDA24A754A400E2D337 /* AppDelegate.swift */; };
@@ -37,6 +39,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		27D582DD4B6D511C0054F676 /* Pods-iMoojigae.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMoojigae.debug.xcconfig"; path = "Target Support Files/Pods-iMoojigae/Pods-iMoojigae.debug.xcconfig"; sourceTree = "<group>"; };
+		615BAEC4C74E824820D6B02E /* Pods-iMoojigaeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMoojigaeTests.release.xcconfig"; path = "Target Support Files/Pods-iMoojigaeTests/Pods-iMoojigaeTests.release.xcconfig"; sourceTree = "<group>"; };
+		76D67F426C2CDAB809BA4227 /* Pods-iMoojigae.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMoojigae.release.xcconfig"; path = "Target Support Files/Pods-iMoojigae/Pods-iMoojigae.release.xcconfig"; sourceTree = "<group>"; };
+		A6F3D75F31543880F85216ED /* Pods_iMoojigae.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMoojigae.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAB0AF309C625DB59B0BA882 /* Pods_iMoojigaeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMoojigaeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB8DAB0A82B64384C9B9DFAD /* Pods-iMoojigaeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMoojigaeTests.debug.xcconfig"; path = "Target Support Files/Pods-iMoojigaeTests/Pods-iMoojigaeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EC2911C6250B355300E61269 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
 		EC2911C8250B431600E61269 /* LoginToService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToService.swift; sourceTree = "<group>"; };
 		EC86FCD724A754A400E2D337 /* iMoojigae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMoojigae.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F5AE3D72F119105F4A9D50B /* Pods_iMoojigae.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,18 +81,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C099B148BDB59210D943124B /* Pods_iMoojigaeTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		84FC078CDC83453115B155C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A6F3D75F31543880F85216ED /* Pods_iMoojigae.framework */,
+				BAB0AF309C625DB59B0BA882 /* Pods_iMoojigaeTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A940B6B5FAB958DD3057A03C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				27D582DD4B6D511C0054F676 /* Pods-iMoojigae.debug.xcconfig */,
+				76D67F426C2CDAB809BA4227 /* Pods-iMoojigae.release.xcconfig */,
+				BB8DAB0A82B64384C9B9DFAD /* Pods-iMoojigaeTests.debug.xcconfig */,
+				615BAEC4C74E824820D6B02E /* Pods-iMoojigaeTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		EC86FCCE24A754A400E2D337 = {
 			isa = PBXGroup;
 			children = (
 				EC86FCD924A754A400E2D337 /* iMoojigae */,
 				EC86FCF024A754A500E2D337 /* iMoojigaeTests */,
 				EC86FCD824A754A400E2D337 /* Products */,
+				A940B6B5FAB958DD3057A03C /* Pods */,
+				84FC078CDC83453115B155C7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,9 +168,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC86FCF624A754A500E2D337 /* Build configuration list for PBXNativeTarget "iMoojigae" */;
 			buildPhases = (
+				BC622ECA47D197B4ADAFEC52 /* [CP] Check Pods Manifest.lock */,
 				EC86FCD324A754A400E2D337 /* Sources */,
 				EC86FCD424A754A400E2D337 /* Frameworks */,
 				EC86FCD524A754A400E2D337 /* Resources */,
+				499E3A03793BB1BB63DF169F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -153,6 +187,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC86FCF924A754A500E2D337 /* Build configuration list for PBXNativeTarget "iMoojigaeTests" */;
 			buildPhases = (
+				391D37EABE0775E9C2AEBE09 /* [CP] Check Pods Manifest.lock */,
 				EC86FCE924A754A500E2D337 /* Sources */,
 				EC86FCEA24A754A500E2D337 /* Frameworks */,
 				EC86FCEB24A754A500E2D337 /* Resources */,
@@ -225,6 +260,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		391D37EABE0775E9C2AEBE09 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iMoojigaeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		499E3A03793BB1BB63DF169F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iMoojigae/Pods-iMoojigae-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iMoojigae/Pods-iMoojigae-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iMoojigae/Pods-iMoojigae-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC622ECA47D197B4ADAFEC52 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iMoojigae-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EC86FCD324A754A400E2D337 /* Sources */ = {
@@ -401,6 +500,7 @@
 		};
 		EC86FCF724A754A500E2D337 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27D582DD4B6D511C0054F676 /* Pods-iMoojigae.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -421,6 +521,7 @@
 		};
 		EC86FCF824A754A500E2D337 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 76D67F426C2CDAB809BA4227 /* Pods-iMoojigae.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -440,6 +541,7 @@
 		};
 		EC86FCFA24A754A500E2D337 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB8DAB0A82B64384C9B9DFAD /* Pods-iMoojigaeTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -462,6 +564,7 @@
 		};
 		EC86FCFB24A754A500E2D337 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 615BAEC4C74E824820D6B02E /* Pods-iMoojigaeTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

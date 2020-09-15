@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -29,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
             }
             application.registerForRemoteNotifications()
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         return true
     }
