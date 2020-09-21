@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMobileAds
 
-class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
+class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, ArticleViewDelegate, ArticleWriteDelegate {
     
     //MARK: Properties
     
@@ -26,6 +26,9 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
+                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
+        
         self.title = boardTitle
         
         // GoogleMobileAds
@@ -35,6 +38,10 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         
         // Load the data.
         loadData()
+    }
+    
+    @objc func contentSizeCategoryDidChangeNotification() {
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -49,6 +56,10 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         return itemList.count
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
@@ -59,6 +70,10 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         var cell: UITableViewCell
         let item = itemList[indexPath.row]
         let isRe = Int(item.isRe)
+        
+        let bodyFont = UIFont.preferredFont(forTextStyle: .body)
+        let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote)
+
         if isRe == 1 {
             cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierItem, for: indexPath)
             // Fetches the appropriate meal for the data source layout.
@@ -70,21 +85,51 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
             } else {
                 labelComment.isHidden = false
                 labelComment.layer.cornerRadius = 8
-                labelComment.layer.borderWidth = 1.0;
+                labelComment.layer.borderWidth = 2.0;
+                let cnt = Int(item.comment) ?? 1
+                if cnt < 10 {
+                    labelComment.textColor = .blue
+                } else {
+                    labelComment.textColor = .red
+                }
                 labelComment.layer.borderColor = labelComment.textColor.cgColor;
             }
+            
             textSubject.text = item.subject
             labelName.text = item.name + " " + item.date
             labelComment.text = item.comment
+            
+            textSubject.font = bodyFont
+            labelName.font = footnoteFont
+            labelComment.font = footnoteFont
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierReItem, for: indexPath)
             // Fetches the appropriate meal for the data source layout.
             let textSubject: UITextView = cell.viewWithTag(301) as! UITextView
             let labelName: UILabel = cell.viewWithTag(300) as! UILabel
             let labelComment: UILabel = cell.viewWithTag(303) as! UILabel
+            if item.comment == "" || item.comment == "0" {
+                labelComment.isHidden = true
+            } else {
+                labelComment.isHidden = false
+                labelComment.layer.cornerRadius = 8
+                labelComment.layer.borderWidth = 2.0;
+                let cnt = Int(item.comment) ?? 1
+                if cnt < 10 {
+                    labelComment.textColor = .blue
+                } else {
+                    labelComment.textColor = .red
+                }
+                labelComment.layer.borderColor = labelComment.textColor.cgColor;
+            }
+            
             textSubject.text = item.subject
             labelName.text = item.name + " " + item.date
             labelComment.text = item.comment
+
+            textSubject.font = bodyFont
+            labelName.font = footnoteFont
+            labelComment.font = footnoteFont
         }
 //        print ("indexPath.row=\(indexPath.row), itemList.count=\(itemList.count)")
         if indexPath.row  == (itemList.count - 1) {
@@ -116,6 +161,18 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
             let item = self.itemList[indexPath.row]
             articleView.boardId = item.boardId
             articleView.boardNo = item.boardNo
+            articleView.delegate = self;
+            articleView.selectedRow = indexPath.row
+        case "ArticleWrite":
+            guard let articleWrite = segue.destination as? ArticleWrite else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            articleWrite.boardId = self.boardId
+            articleWrite.boardNo = ""
+            articleWrite.strTitle = ""
+            articleWrite.strContent = ""
+            articleWrite.delegate = self
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
@@ -148,7 +205,24 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
     }
 
-    //MARK: Private Methods
+    //MARK: - Private Methods
+
+    func articleView(_ articleView: ArticleView, didDelete row: Int) {
+        itemList.remove(at: row)
+        tableView.reloadData()
+    }
+
+    //MARK: - Private Methods
+
+    func articleWrite(_ articleWrite: ArticleWrite, didWrite sender: Any) {
+        itemList.removeAll()
+        nPage = 1
+        tableView.reloadData()
+        loadData()
+    }
+    
+    
+    //MARK: - Private Methods
     
     private func loadData() {
         let sPage: String = String(nPage)

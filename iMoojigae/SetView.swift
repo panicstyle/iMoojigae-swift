@@ -9,6 +9,10 @@
 import UIKit
 import os.log
 
+protocol SetViewDelegate {
+    
+}
+
 class SetView : UIViewController, LoginToServiceDelegate {
 
     //MARK: Properties

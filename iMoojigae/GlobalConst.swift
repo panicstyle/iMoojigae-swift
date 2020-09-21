@@ -19,4 +19,19 @@ class GlobalConst {
     static let PUSH_REGISTER = 2
     static let PUSH_UPDATE = 3
     static let LOGOUT_TO_SERVER = 4
+    
+    static let FILE_TYPE_HTML = 0
+    static let FILE_TYPE_IMAGE = 1
+    
+    static let WRITE_MODE = 0
+    static let MODIFY_MODE = 1
+    
+    static let POST_FILE = 1
+    static let POST_DATA = 2
+    
+    static let SCALE_SIZE = 600
+    
+    static let READ_ARTICLE = 1
+    static let DELETE_ARTICLE = 2
+    static let DELETE_COMMENT = 3
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import WebKit
 import GoogleMobileAds
 
 class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
@@ -20,10 +21,14 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var menuId: String = ""
     
     var boardData = BoardData()
+    var config: WKWebViewConfiguration?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
+                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
+        
         self.title = menuName
         
         // GoogleMobileAds
@@ -40,6 +45,10 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
         // Dispose of any resources that can be recreated.
     }
 
+    @objc func contentSizeCategoryDidChangeNotification() {
+        self.tableView.reloadData()
+    }
+    
     //MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -50,6 +59,11 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return boardData?.boardList.count ?? 0
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let titleFont = UIFont.preferredFont(forTextStyle: .body)
+        let cellHeight: CGFloat = 44.0 - 17.0 + titleFont.pointSize
+        return cellHeight
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -69,6 +83,7 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
 
         cell.textLabel?.text = board?.title
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         
         return cell
     }
@@ -132,6 +147,7 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
             print("json to Any Error")
             return
         }
+        
         // 원하는 작업
         NSLog("%@", jsonToArray)
         boardData = BoardData(json: jsonToArray)
@@ -139,6 +155,18 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
             NSLog("%@", boardRecent)
         }
         DispatchQueue.main.sync {
+            // Cookie 처리
+            let wkDataStore = WKWebsiteDataStore.nonPersistent()
+            //쿠키를 담을 배열 sharedCookies
+            if httpSessionRequest.sharedCookies!.count > 0 {
+                //sharedCookies에서 쿠키들을 뽑아내서 wkDataStore에 넣는다.
+                for cookie in httpSessionRequest.sharedCookies! {
+                    wkDataStore.httpCookieStore.setCookie(cookie){}
+                }
+            }
+            config = WKWebViewConfiguration()
+            config!.websiteDataStore = wkDataStore
+            
             self.tableView.reloadData()
         }
     }

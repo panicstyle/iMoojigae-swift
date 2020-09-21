@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol HttpSessionRequestDelegate: AnyObject {
+protocol HttpSessionRequestDelegate {
     func httpSessionRequest(_ httpSessionRequest: HttpSessionRequest, didFinishLodingData data: Data)
     func httpSessionRequest(_ httpSessionRequest: HttpSessionRequest, withError error: Error)
 }
@@ -45,18 +45,37 @@ class HttpSessionRequest {
 
         // dataTask
         let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            // getting Data Error
-            guard error == nil else {
-                print("Error occur: \(String(describing: error))")
-                self.delegate?.httpSessionRequest(self, withError: error!)
-                return
-            }
-            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                self.delegate?.httpSessionRequest(self, withError: error!)
-                return
-            }
-            self.sharedCookies = HTTPCookieStorage.shared.cookies(for: request.url!) ?? []
-            self.delegate?.httpSessionRequest(self, didFinishLodingData: data)
+            self.dataTaskFinish(request: request, data: data, response: response, error: error)
+        }
+        dataTask.resume()
+    }
+
+    func requestWithMultiPart(resource: String, param: Data?, referer: String, boundary: String) {
+        // 세션 생성, 환경설정
+        let defaultSession = URLSession(configuration: .default)
+
+        guard let url = URL(string: "\(resource)") else {
+            print("URL is nil")
+            return
+        }
+
+        let postLength = String(param!.count)
+        let contentType = "multipart/form-data; boundary=\(boundary)"
+        
+        // Request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
+        request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+        request.setValue(referer, forHTTPHeaderField: "Referer")
+
+        if (param != nil) {
+            request.httpBody = param
+        }
+
+        // dataTask
+        let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            self.dataTaskFinish(request: request, data: data, response: response, error: error)
         }
         dataTask.resume()
     }
@@ -91,19 +110,24 @@ class HttpSessionRequest {
 
         // dataTask
         let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            // getting Data Error
-            guard error == nil else {
-                print("Error occur: \(String(describing: error))")
-                self.delegate?.httpSessionRequest(self, withError: error!)
-                return
-            }
-            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                self.delegate?.httpSessionRequest(self, withError: error!)
-                return
-            }
-            self.sharedCookies = HTTPCookieStorage.shared.cookies(for: request.url!) ?? []
-            self.delegate?.httpSessionRequest(self, didFinishLodingData: data)
+            self.dataTaskFinish(request: request, data: data, response: response, error: error)
         }
         dataTask.resume()
+    }
+    
+    func dataTaskFinish(request: URLRequest?, data: Data?, response: URLResponse?, error: Error?) {
+        // getting Data Error
+        guard error == nil else {
+            print("Error occur: \(String(describing: error))")
+            self.delegate?.httpSessionRequest(self, withError: error!)
+            return
+        }
+        guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            self.delegate?.httpSessionRequest(self, withError: error!)
+            return
+        }
+        self.sharedCookies = HTTPCookieStorage.shared.cookies(for: request!.url!) ?? []
+        self.delegate?.httpSessionRequest(self, didFinishLodingData: data)
+
     }
 }

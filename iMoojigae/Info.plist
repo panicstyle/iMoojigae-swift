@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Some ad content may access calendar</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload photo to server</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Upload photo to server</string>
 </dict>
 </plist>

@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import WebKit
 import GoogleMobileAds
 
 class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, LoginToServiceDelegate {
@@ -18,9 +19,13 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
     @IBOutlet var bannerView: GADBannerView!
     
     var mainData = MainData()
+    var config: WKWebViewConfiguration?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
+                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
         
         self.title = "무지개교육마을"
         
@@ -38,6 +43,10 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
         // Dispose of any resources that can be recreated.
     }
 
+    @objc func contentSizeCategoryDidChangeNotification() {
+        self.tableView.reloadData()
+    }
+    
     //MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -48,6 +57,11 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
         return mainData?.menuList.count ?? 0
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let titleFont = UIFont.preferredFont(forTextStyle: .body)
+        let cellHeight: CGFloat = 44.0 - 17.0 + titleFont.pointSize
+        return cellHeight
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -69,6 +83,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
         }
 
         cell.textLabel?.text = menuData?.title
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         
         return cell
     }
@@ -117,6 +132,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
             let menuData = mainData?.menuList[indexPath.row]
             linkView.linkName = menuData!.title
             linkView.link = menuData!.value
+            linkView.config = config
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
@@ -129,11 +145,24 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
             print("json to Any Error")
             return
         }
+        
         // 원하는 작업
         print(jsonToArray)
         mainData = MainData(json: jsonToArray)
         print(mainData?.recent as Any)
         DispatchQueue.main.sync {
+            // Cookie 처리
+            let wkDataStore = WKWebsiteDataStore.nonPersistent()
+            //쿠키를 담을 배열 sharedCookies
+            if httpSessionRequest.sharedCookies!.count > 0 {
+                //sharedCookies에서 쿠키들을 뽑아내서 wkDataStore에 넣는다.
+                for cookie in httpSessionRequest.sharedCookies! {
+                    wkDataStore.httpCookieStore.setCookie(cookie){}
+                }
+            }
+            config = WKWebViewConfiguration()
+            config!.websiteDataStore = wkDataStore
+            
             self.tableView.reloadData()
         }
         
@@ -148,7 +177,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
     //MARK: - LoginToServiceDelegate
     
     func loginToService(_ loginToService: LoginToService, loginWithSuccess result: String) {
-        
+        print("LoginToService Success")
     }
     
     func loginToService(_ loginToService: LoginToService, loginWithFail result: String) {

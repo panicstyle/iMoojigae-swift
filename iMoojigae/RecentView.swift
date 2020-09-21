@@ -23,6 +23,9 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
+                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
+        
         if self.type == "list" {
             self.title = "최신글보기"
         } else {
@@ -38,6 +41,10 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         loadData()
     }
 
+    @objc func contentSizeCategoryDidChangeNotification() {
+        self.tableView.reloadData()
+    }
+    
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -50,6 +57,10 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return itemList.count
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view cells are reused and should be dequeued using a cell identifier.
@@ -58,6 +69,9 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         var cell: UITableViewCell
         let item = itemList[indexPath.row]
 
+        let bodyFont = UIFont.preferredFont(forTextStyle: .body)
+        let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote)
+        
         cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierItem, for: indexPath)
 
         // Fetches the appropriate meal for the data source layout.
@@ -71,7 +85,13 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         } else {
             labelComment.isHidden = false
             labelComment.layer.cornerRadius = 8
-            labelComment.layer.borderWidth = 1.0;
+            labelComment.layer.borderWidth = 2.0;
+            let cnt = Int(item.comment) ?? 1
+            if cnt < 10 {
+                labelComment.textColor = .blue
+            } else {
+                labelComment.textColor = .red
+            }
             labelComment.layer.borderColor = labelComment.textColor.cgColor;
         }
         textSubject.text = item.subject
@@ -79,6 +99,11 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         labelName.text = item.name + " " + item.date
         labelComment.text = item.comment
 
+        textSubject.font = bodyFont
+        labelBoardName.font = footnoteFont
+        labelName.font = footnoteFont
+        labelComment.font = footnoteFont
+        
         return cell
     }
 

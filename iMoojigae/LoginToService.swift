@@ -84,7 +84,7 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
         
         let httpSessionRequest = HttpSessionRequest()
         httpSessionRequest.delegate = self
-        httpSessionRequest.tag = GlobalConst.LOGIN_TO_SERVER
+        httpSessionRequest.tag = GlobalConst.PUSH_REGISTER
         httpSessionRequest.requestWithJson(httpMethod: "POST", resource: GlobalConst.ServerName + "/push/PushRegister", json: jsonObject, referer: "")
     }
     
