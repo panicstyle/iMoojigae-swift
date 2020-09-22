@@ -21,14 +21,14 @@ extension String {
 
 //MARK: - SetStorage
 
-class SetStorage: NSObject, NSCoding {
-    var userId: String
-    var userPwd: String
+@objc(SetStorage) class SetStorage: NSObject, NSCoding {
+    var userId: NSString
+    var userPwd: NSString
     var swPush: NSNumber
 
     init(userId: String, userPwd: String, swPush: NSNumber) {
-        self.userId = userId
-        self.userPwd = userPwd
+        self.userId = userId as NSString
+        self.userPwd = userPwd as NSString
         self.swPush = swPush
         super.init()
     }
@@ -40,8 +40,8 @@ class SetStorage: NSObject, NSCoding {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        userId = aDecoder.decodeObject(forKey: "id") as! String
-        userPwd = aDecoder.decodeObject(forKey: "pwd") as! String
+        userId = aDecoder.decodeObject(forKey: "id") as! NSString
+        userPwd = aDecoder.decodeObject(forKey: "pwd") as! NSString
         swPush = aDecoder.decodeObject(forKey: "push") as! NSNumber
         super.init()
     }
@@ -49,11 +49,11 @@ class SetStorage: NSObject, NSCoding {
 
 //MARK: - SetTokenStorage
 
-class SetTokenStorage: NSObject, NSCoding {
-    var token: String
+@objc(SetTokenStorage) class SetTokenStorage: NSObject, NSCoding {
+    var token: NSString
 
     init(token: String) {
-        self.token = token
+        self.token = token as NSString
         super.init()
     }
 
@@ -62,7 +62,7 @@ class SetTokenStorage: NSObject, NSCoding {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        token = aDecoder.decodeObject(forKey: "token") as! String
+        token = aDecoder.decodeObject(forKey: "token") as! NSString
         super.init()
     }
 }

@@ -29,8 +29,8 @@ class SetView : UIViewController, LoginToServiceDelegate {
         do {
             let fileData = try Data(contentsOf: fullPath)
             let setStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetStorage
-            idField.text = setStorage.userId
-            pwField.text = setStorage.userPwd
+            idField.text = String(setStorage.userId)
+            pwField.text = String(setStorage.userPwd)
             if setStorage.swPush == 1 {
                 swPush.setOn(true, animated: true);
             } else {

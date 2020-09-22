@@ -29,8 +29,8 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
         do {
             let fileData = try Data(contentsOf: fullPath)
             let setStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetStorage
-            userId = setStorage.userId
-            userPwd = setStorage.userPwd
+            userId = String(setStorage.userId)
+            userPwd = String(setStorage.userPwd)
             swPush = setStorage.swPush
         } catch {
             print("Couldn't read set.dat file")
@@ -61,7 +61,7 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
         do {
             let fileData = try Data(contentsOf: fullPath)
             let setTokenStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetTokenStorage
-            token = setTokenStorage.token
+            token = String(setTokenStorage.token)
         } catch {
             print("Couldn't read token.dat file")
         }
