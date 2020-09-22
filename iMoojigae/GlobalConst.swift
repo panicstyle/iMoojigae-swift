@@ -25,6 +25,7 @@ class GlobalConst {
     
     static let WRITE_MODE = 0
     static let MODIFY_MODE = 1
+    static let REPLY_MODE = 2
     
     static let POST_FILE = 1
     static let POST_DATA = 2

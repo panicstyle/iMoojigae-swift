@@ -11,10 +11,10 @@ import UserNotifications
 import GoogleMobileAds
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, ArticleViewDelegate {
 
     var window: UIWindow?
-
+    var dUserInfo: [AnyHashable: Any]?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -52,6 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if self.dUserInfo != nil {
+            moveToViewController()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -93,9 +96,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Handle push from background or closed")
         // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background
         print("\(response.notification.request.content.userInfo)")
+        self.dUserInfo = response.notification.request.content.userInfo
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    }
+    
+    func moveToViewController() {
+        guard let userInfo = dUserInfo else {
+            dUserInfo = nil
+            return
+        }
+        let boardId = userInfo["boardId"] as! String
+        let boardNo = userInfo["boardNo"] as! String
+
+        if boardId == "" || boardNo == "" {
+            dUserInfo = nil
+            return
+        }
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let articleView = storyboard.instantiateViewController(withIdentifier: "ArticleView") as! ArticleView
+        articleView.boardId = boardId
+        articleView.boardNo = boardNo
+        articleView.delegate = self;
+        articleView.selectedRow = -1
+        let navigationController = self.window?.rootViewController as! UINavigationController
+        navigationController.pushViewController(articleView, animated: true)
+    }
+    
+    func articleView(_ articleView: ArticleView, didDelete row: Int) {
     }
 }
 

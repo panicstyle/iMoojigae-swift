@@ -186,6 +186,7 @@ struct ItemData {
         else {
             return nil
         }
+        let db = DBInterface()
         for itemIndex in items {
             var item = Item()
             item.boardNo = itemIndex["boardNo"] as! String
@@ -204,7 +205,11 @@ struct ItemData {
             item.comment = itemIndex["boardMemo_cnt"] as! String
             item.hit = itemIndex["boardRead_cnt"] as! String
             item.date = itemIndex["boardRegister_dt"] as! String
-            item.read = 1
+
+            item.read = 0
+            if db.search(boardId: item.boardId, boardNo: item.boardNo) > 0 {
+                item.read = 1
+            }
             self.itemList.append(item)
         }
     }
@@ -248,6 +253,7 @@ struct RecentItemData {
         else {
             return nil
         }
+        let db = DBInterface()
         for itemIndex in items {
             var item = RecentItem()
             item.boardNo = itemIndex["boardNo"] as! String
@@ -266,7 +272,11 @@ struct RecentItemData {
             item.comment = itemIndex["boardMemo_cnt"] as! String
             item.hit = itemIndex["boardRead_cnt"] as! String
             item.date = itemIndex["boardRegister_dt"] as! String
-            item.read = 1
+            
+            item.read = 0
+            if db.search(boardId: item.boardId, boardNo: item.boardNo) > 0 {
+                item.read = 1
+            }
             self.itemList.append(item)
         }
     }

@@ -135,6 +135,7 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
             let board = self.boardData?.boardList[indexPath.row]
             linkView.linkName = board!.title
             linkView.link = board!.boardId
+            linkView.config = config
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }

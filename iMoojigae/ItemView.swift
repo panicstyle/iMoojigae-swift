@@ -88,17 +88,28 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
                 labelComment.layer.borderWidth = 2.0;
                 let cnt = Int(item.comment) ?? 1
                 if cnt < 10 {
-                    labelComment.textColor = .blue
+                    labelComment.textColor = Utils.hexStringToUIColor(hex: "0B84FF")
                 } else {
-                    labelComment.textColor = .red
+                    labelComment.textColor = Utils.hexStringToUIColor(hex: "30D158")
                 }
                 labelComment.layer.borderColor = labelComment.textColor.cgColor;
             }
             
-            textSubject.text = item.subject
+            let subject = String(htmlEncodedString: item.subject)
+            textSubject.text = subject
             labelName.text = item.name + " " + item.date
             labelComment.text = item.comment
             
+            if item.read == 1 {
+                textSubject.textColor = .gray
+            } else {
+                if #available(iOS 13.0, *) {
+                    textSubject.textColor = .label
+                } else {
+                    textSubject.textColor = .black
+                }
+            }
+
             textSubject.font = bodyFont
             labelName.font = footnoteFont
             labelComment.font = footnoteFont
@@ -116,17 +127,28 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
                 labelComment.layer.borderWidth = 2.0;
                 let cnt = Int(item.comment) ?? 1
                 if cnt < 10 {
-                    labelComment.textColor = .blue
+                    labelComment.textColor = Utils.hexStringToUIColor(hex: "0B84FF")
                 } else {
-                    labelComment.textColor = .red
+                    labelComment.textColor = Utils.hexStringToUIColor(hex: "30D158")
                 }
                 labelComment.layer.borderColor = labelComment.textColor.cgColor;
             }
             
-            textSubject.text = item.subject
+            let subject = String(htmlEncodedString: item.subject)
+            textSubject.text = subject
             labelName.text = item.name + " " + item.date
             labelComment.text = item.comment
 
+            if item.read == 1 {
+                textSubject.textColor = .gray
+            } else {
+                if #available(iOS 13.0, *) {
+                    textSubject.textColor = .label
+                } else {
+                    textSubject.textColor = .black
+                }
+            }
+            
             textSubject.font = bodyFont
             labelName.font = footnoteFont
             labelComment.font = footnoteFont
@@ -141,6 +163,16 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var item = itemList[indexPath.row]
+        item.read = 1
+        itemList[indexPath.row] = item
+        
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        tableView.endUpdates()
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

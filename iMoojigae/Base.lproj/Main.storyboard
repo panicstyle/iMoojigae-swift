@@ -255,7 +255,7 @@
         <!--Article Write-->
         <scene sceneID="csM-MM-HRR">
             <objects>
-                <viewController id="tbx-xZ-FKb" customClass="ArticleWrite" customModule="iMoojigae" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleWrite" id="tbx-xZ-FKb" customClass="ArticleWrite" customModule="iMoojigae" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ioW-yQ-m5o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -363,6 +363,52 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Koj-Qu-KlW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="918.84057971014499" y="882.06521739130437"/>
+        </scene>
+        <!--Comment Write-->
+        <scene sceneID="AKg-9e-S5p">
+            <objects>
+                <viewController storyboardIdentifier="CommentWrite" id="0ym-zc-xfg" customClass="CommentWrite" customModule="iMoojigae" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EIX-1y-7L8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20s-HF-3ZT">
+                                <rect key="frame" x="20" y="20" width="374" height="696"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xV0-ak-wzt">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="696"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="xV0-ak-wzt" firstAttribute="leading" secondItem="20s-HF-3ZT" secondAttribute="leading" id="G5B-sJ-zZQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="xV0-ak-wzt" secondAttribute="bottom" id="NKd-g6-83A"/>
+                                    <constraint firstItem="xV0-ak-wzt" firstAttribute="top" secondItem="20s-HF-3ZT" secondAttribute="top" id="pIe-9d-QrR"/>
+                                    <constraint firstAttribute="trailing" secondItem="xV0-ak-wzt" secondAttribute="trailing" id="tQL-1c-yKO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1FP-J0-GBk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="20s-HF-3ZT" firstAttribute="top" secondItem="1FP-J0-GBk" secondAttribute="top" constant="20" id="7Ss-2l-1ng"/>
+                            <constraint firstItem="1FP-J0-GBk" firstAttribute="bottom" secondItem="20s-HF-3ZT" secondAttribute="bottom" constant="20" id="HUT-vg-UtU"/>
+                            <constraint firstItem="20s-HF-3ZT" firstAttribute="leading" secondItem="1FP-J0-GBk" secondAttribute="leading" constant="20" id="Qty-hV-aQK"/>
+                            <constraint firstItem="1FP-J0-GBk" firstAttribute="trailing" secondItem="20s-HF-3ZT" secondAttribute="trailing" constant="20" id="agD-xp-Tga"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="xV0-ak-wzt" id="1aZ-Bh-dDd"/>
+                        <outlet property="viewBottom" destination="HUT-vg-UtU" id="HfD-zA-Nti"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bAB-pB-aDG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1692.753623188406" y="878.804347826087"/>
         </scene>
         <!--Board View-->
         <scene sceneID="5m1-dL-I1v">
@@ -669,7 +715,7 @@
         <!--Article View-->
         <scene sceneID="t5H-KK-QAS">
             <objects>
-                <viewController id="v3U-P7-ezU" customClass="ArticleView" customModule="iMoojigae" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleView" id="v3U-P7-ezU" customClass="ArticleView" customModule="iMoojigae" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mcA-GP-l8h">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

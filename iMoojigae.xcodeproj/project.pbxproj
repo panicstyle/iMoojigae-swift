@@ -12,6 +12,8 @@
 		EC2911C7250B355300E61269 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2911C6250B355300E61269 /* SetView.swift */; };
 		EC2911C9250B431600E61269 /* LoginToService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2911C8250B431600E61269 /* LoginToService.swift */; };
 		EC33A47E2515C66700DCC8FB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC33A47D2515C66700DCC8FB /* Utils.swift */; };
+		EC62F8412518CF6B00452C93 /* CommentWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8402518CF6B00452C93 /* CommentWrite.swift */; };
+		EC62F8472518D8BD00452C93 /* String+Extionsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8462518D8BD00452C93 /* String+Extionsion.swift */; };
 		EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCDA24A754A400E2D337 /* AppDelegate.swift */; };
 		EC86FCE224A754A400E2D337 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE024A754A400E2D337 /* Main.storyboard */; };
 		EC86FCE424A754A400E2D337 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE324A754A400E2D337 /* Assets.xcassets */; };
@@ -27,6 +29,7 @@
 		ECD9B71224ECB40B00B1B978 /* HttpSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */; };
 		ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71524ECC1A700B1B978 /* AppData.swift */; };
 		ECD9B71824ED007300B1B978 /* GlobalConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71724ED007300B1B978 /* GlobalConst.swift */; };
+		ECDA63BA2519AEAB0053B8A1 /* DBInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */; };
 		ECF7BB862511E19E0081AE5B /* ArticleWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */; };
 		ECF7BB882512EFE50081AE5B /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7BB872512EFE50081AE5B /* KeyboardObserver.swift */; };
 /* End PBXBuildFile section */
@@ -51,6 +54,8 @@
 		EC2911C6250B355300E61269 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
 		EC2911C8250B431600E61269 /* LoginToService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToService.swift; sourceTree = "<group>"; };
 		EC33A47D2515C66700DCC8FB /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		EC62F8402518CF6B00452C93 /* CommentWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWrite.swift; sourceTree = "<group>"; };
+		EC62F8462518D8BD00452C93 /* String+Extionsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extionsion.swift"; sourceTree = "<group>"; };
 		EC86FCD724A754A400E2D337 /* iMoojigae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMoojigae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC86FCDA24A754A400E2D337 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC86FCE124A754A400E2D337 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -70,6 +75,7 @@
 		ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpSessionRequest.swift; sourceTree = "<group>"; };
 		ECD9B71524ECC1A700B1B978 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		ECD9B71724ED007300B1B978 /* GlobalConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConst.swift; sourceTree = "<group>"; };
+		ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBInterface.swift; sourceTree = "<group>"; };
 		ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWrite.swift; sourceTree = "<group>"; };
 		ECF7BB872512EFE50081AE5B /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +149,8 @@
 				ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */,
 				EC86FCE324A754A400E2D337 /* Assets.xcassets */,
 				ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */,
+				EC62F8402518CF6B00452C93 /* CommentWrite.swift */,
+				ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */,
 				ECD9B71724ED007300B1B978 /* GlobalConst.swift */,
 				ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */,
 				EC86FCE824A754A400E2D337 /* Info.plist */,
@@ -156,6 +164,7 @@
 				ECC42FEF250F09BB006E9F67 /* RecentView.swift */,
 				EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */,
 				EC2911C6250B355300E61269 /* SetView.swift */,
+				EC62F8462518D8BD00452C93 /* String+Extionsion.swift */,
 				EC33A47D2515C66700DCC8FB /* Utils.swift */,
 			);
 			path = iMoojigae;
@@ -341,11 +350,14 @@
 			files = (
 				ECD7FF4124F6B78D0008F0F3 /* BoardView.swift in Sources */,
 				ECD9B71224ECB40B00B1B978 /* HttpSessionRequest.swift in Sources */,
+				ECDA63BA2519AEAB0053B8A1 /* DBInterface.swift in Sources */,
+				EC62F8412518CF6B00452C93 /* CommentWrite.swift in Sources */,
 				EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */,
 				ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */,
 				EC86FCFD24A78EE800E2D337 /* MainView.swift in Sources */,
 				ECD9B71824ED007300B1B978 /* GlobalConst.swift in Sources */,
 				ECC42FF0250F09BB006E9F67 /* RecentView.swift in Sources */,
+				EC62F8472518D8BD00452C93 /* String+Extionsion.swift in Sources */,
 				EC33A47E2515C66700DCC8FB /* Utils.swift in Sources */,
 				EC86FD2F24A79AD000E2D337 /* SceneDelegate.swift in Sources */,
 				ECF7BB862511E19E0081AE5B /* ArticleWrite.swift in Sources */,

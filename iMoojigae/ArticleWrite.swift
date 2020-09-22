@@ -80,6 +80,8 @@ class ArticleWrite: UIViewController, UITextViewDelegate, UIImagePickerControlle
         
         textView.delegate = self
         textViewSetupView()
+        
+        textField.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -115,7 +117,7 @@ class ArticleWrite: UIViewController, UITextViewDelegate, UIImagePickerControlle
                       with event: UIEvent?) {
         print("touchesBegan")
         if touches.count > 0 {
-            self.view.endEditing(true)
+//            self.view.endEditing(true)
             let touch: UITouch = touches.first!
             var imageStatus = 0
             if touch.view == imageView0 {
@@ -331,7 +333,7 @@ class ArticleWrite: UIViewController, UITextViewDelegate, UIImagePickerControlle
         let confirm = UIAlertAction(title: "취소", style: .default) { (action) in
             self.navigationController?.popViewController(animated: true)
         }
-        let cancel = UIAlertAction(title: "돌아가기", style: .default) { (action) in }
+        let cancel = UIAlertAction(title: "계속작성", style: .default) { (action) in }
         alert.addAction(confirm)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
@@ -439,8 +441,11 @@ class ArticleWrite: UIViewController, UITextViewDelegate, UIImagePickerControlle
             command = "MODIFY"
         }
         
-        let escContent: String = textView.text!
+        var escContent: String = textView.text!
         let escTitle: String  = textField.text!
+        
+        escContent = escContent.replacingOccurrences(of: "\n", with: "<br />")
+        
         var strFileName = ""
         var strFileMask = ""
         var strFileSize = ""

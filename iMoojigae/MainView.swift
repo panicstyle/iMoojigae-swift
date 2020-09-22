@@ -36,6 +36,9 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
         
         // Load the data.
         loadData()
+        
+        let db = DBInterface()
+        db.delete()
     }
 
     override func didReceiveMemoryWarning() {

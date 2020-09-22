@@ -14,8 +14,8 @@ protocol ArticleViewDelegate {
     func articleView(_ articleView: ArticleView, didDelete row: Int)
 }
 
-class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate, UIDocumentInteractionControllerDelegate {
-    
+class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate, UIDocumentInteractionControllerDelegate, ArticleWriteDelegate, CommentWriteDelegate {
+
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
@@ -24,8 +24,8 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var boardId: String = ""
     var boardNo: String = ""
     var delegate: ArticleViewDelegate?
-    var selectedRow = 0
-
+    var selectedRow = -1
+    
     var articleData = ArticleData()
     var cellContent: UITableViewCell?
     var webView: WKWebView?
@@ -37,6 +37,9 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var webLink: String = ""
     var doic: UIDocumentInteractionController?
     var config: WKWebViewConfiguration?
+    var editableSubject = ""
+    var editableContent = ""
+    var selectedCommentRow = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +73,9 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         // Load the data.
         self.loadData()
+        
+        let db = DBInterface()
+        db.insert(boardId: boardId, boardNo: boardNo)
     }
 
     @objc func contentSizeCategoryDidChangeNotification() {
@@ -138,7 +144,10 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
                 cell = tableView.dequeueReusableCell(withIdentifier: cellTitle, for: indexPath)
                 let textSubject = cell.viewWithTag(101) as! UITextView
                 let labelName = cell.viewWithTag(100) as! UILabel
-                textSubject.text = self.articleData?.subject
+                
+                var subject = self.articleData?.subject ?? ""
+                subject = String(htmlEncodedString: subject) ?? ""
+                textSubject.text = subject
                 let name: String = self.articleData?.name ?? ""
                 let date: String = self.articleData?.date ?? ""
                 let hit: String = self.articleData?.hit ?? ""
@@ -159,7 +168,9 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
                 let labelName = cell.viewWithTag(200) as! UILabel
                 let viewComment = cell.viewWithTag(202) as! UITextView
                 labelName.text = item.name + " " + item.date
-                viewComment.text = item.comment
+
+                let comment = String(htmlEncodedString: item.comment)
+                viewComment.text = comment
                 
                 labelName.font = footnoteFont
                 viewComment.font = bodyFont
@@ -168,7 +179,9 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
                 let labelName = cell.viewWithTag(300) as! UILabel
                 let viewComment = cell.viewWithTag(302) as! UITextView
                 labelName.text = item.name + " " + item.date
-                viewComment.text = item.comment
+
+                let comment = String(htmlEncodedString: item.comment)
+                viewComment.text = comment
 
                 labelName.font = footnoteFont
                 viewComment.font = bodyFont
@@ -182,6 +195,7 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
             return
         }
         let commentList = self.articleData!.commentList
+        selectedCommentRow = indexPath.row
         let item = commentList[indexPath.row]
         let alertTitle = "\(item.name)님의 댓글"
         
@@ -192,7 +206,7 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         })
         let reply: UIAlertAction = UIAlertAction(title: "댓글답변", style: .default, handler: { (alert: UIAlertAction!) in
             print("reply")
-            self.WriteReComment(item)
+            self.writeReComment(item)
         })
         let copy: UIAlertAction = UIAlertAction(title: "댓글복사", style: .default, handler: { (alert: UIAlertAction!) in
             print("copy")
@@ -231,14 +245,16 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
             if (self.cellContent == nil) {
                 return
             }
+            
             self.contentHeight = CGFloat(truncating: result)
-            var contentRect: CGRect = self.cellContent!.frame
-            contentRect.size.height = self.contentHeight
-            self.cellContent!.frame = contentRect
             
             var webRect: CGRect = self.webView!.frame
             webRect.size.height = self.contentHeight
             self.webView!.frame = webRect
+            
+            var contentRect: CGRect = self.cellContent!.frame
+            contentRect.size.height = self.contentHeight
+            self.cellContent!.frame = contentRect
             
             self.tableView.reloadData()
         })
@@ -366,6 +382,22 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
     }
 
+    //MARK: - ArticleWriteDelegate
+    
+    func articleWrite(_ articleWrite: ArticleWrite, didWrite sender: Any) {
+        articleData = ArticleData()
+        tableView.reloadData()
+        loadData()
+    }
+        
+    //MARK: - CommentWriteDelegate
+
+    func commentWrite(_ commentWrite: CommentWrite, didWrite sender: Any) {
+        articleData = ArticleData()
+        tableView.reloadData()
+        loadData()
+    }
+    
     //MARK: - Private Methods
     
     private func loadData() {
@@ -405,8 +437,8 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         var strContent: String = self.articleData!.content
         strContent = strContent.replacingOccurrences(of: "<img ", with: "<img onclick=\"myapp_clickImg(this)\" width=300 ")
-        
-        let strDarModeCss: String = """
+/*
+        let strDarkModeCss: String = """
         <style type="text/css">
         @media (prefers-color-scheme: dark) { \
             body { \
@@ -422,16 +454,18 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         }
         </style>
         """
-        
+*/
         strHtml = ""
         strHtml += "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">"
         strHtml += "<html><head>"
         strHtml += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
         strHtml += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi\">"
         strHtml += "<script>function myapp_clickImg(obj){window.location=\"jscall://\"+encodeURIComponent(obj.src);}</script>"
+/*
         if self.isDarkMode {
-            strHtml += strDarModeCss
+            strHtml += strDarkModeCss
         }
+*/
         strHtml += "</head><body>"
         strHtml += strContent
         strHtml += strImage
@@ -439,6 +473,9 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         strHtml += "<hr>"
         strHtml += strProfile
         strHtml += "</body></html>"
+        
+        editableSubject = String(htmlEncodedString: self.articleData!.subject) ?? ""
+        editableContent = String(htmlEncodedString: strContent) ?? ""
         
         let wkDataStore = WKWebsiteDataStore.nonPersistent()
         //쿠키를 담을 배열 sharedCookies
@@ -453,10 +490,17 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         config = WKWebViewConfiguration()
         config!.websiteDataStore = wkDataStore
         
-        self.webView = WKWebView.init(frame: CGRect(x: 0, y: 0, width: (self.cellContent?.frame.size.width)!, height: (self.cellContent?.frame.size.height)!), configuration: config!)
+        self.webView = WKWebView.init(frame: CGRect(x: 0, y: 0, width: (self.view.frame.size.width), height: (self.cellContent?.frame.size.height)!), configuration: config!)
         self.webView?.uiDelegate = self
         self.webView?.navigationDelegate = self
-        self.webView?.backgroundColor = .clear
+/*
+        if self.isDarkMode {
+            self.webView?.backgroundColor = UIColor(red: 38, green: 38, blue: 41, alpha: 1)
+        } else {
+            self.webView?.backgroundColor = .white
+        }
+ */
+        self.webView?.backgroundColor = .white
         self.webView?.isOpaque = false
         self.webView?.loadHTMLString(strHtml, baseURL: baseUrl)
     }
@@ -465,9 +509,11 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         let alert: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let writeComment: UIAlertAction = UIAlertAction(title: "댓글쓰기", style: .default, handler: { (alert: UIAlertAction!) in
             print("writeComment")
+            self.writeComment()
         })
         let modify: UIAlertAction = UIAlertAction(title: "글수정", style: .default, handler: { (alert: UIAlertAction!) in
             print("modify")
+            self.modifyArticle()
         })
         let delete: UIAlertAction = UIAlertAction(title: "글삭제", style: .default, handler: { (alert: UIAlertAction!) in
             print("delete")
@@ -558,22 +604,103 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         }
     }
 
-    func deleteCommentFinish(_ httpSessionRequest: HttpSessionRequest, _ data: Data) {
+    func modifyArticle() {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let articleWrite = storyboard.instantiateViewController(withIdentifier: "ArticleWrite") as! ArticleWrite
+        articleWrite.boardId = self.boardId
+        articleWrite.boardNo = self.boardNo
+        articleWrite.strTitle = editableSubject
+        articleWrite.strContent = editableContent
+        articleWrite.delegate = self
+        articleWrite.mode = GlobalConst.MODIFY_MODE
+        self.navigationController?.pushViewController(articleWrite, animated: true)
+    }
+    
+    func writeComment() {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let commentWrite = storyboard.instantiateViewController(withIdentifier: "CommentWrite") as! CommentWrite
+        commentWrite.boardId = self.boardId
+        commentWrite.boardNo = self.boardNo
+        commentWrite.delegate = self
+        commentWrite.mode = GlobalConst.WRITE_MODE
+        self.navigationController?.pushViewController(commentWrite, animated: true)
     }
     
     func deleteCommentConfirm(_ item: CommentItem) {
-        
+        let alert = UIAlertController(title: "삭제하시곘습니까?", message: nil, preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { (action) in
+            self.deleteComment(item)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .default) { (action) in }
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func WriteReComment(_ item: CommentItem) {
+    func deleteComment(_ item: CommentItem) {
+        let bodyString = "boardId=\(boardId)&page=1&categoryId=-1&time=&returnBoardNo=\(boardNo)&boardNo=\(boardNo)&command=MEMO_DELETE&totalPage=0&totalRecords=0&serialBadNick=&serialBadContent=&htmlImage=%%2Fout&thumbnailSize=50&memoWriteable=true&list_yn=N&replyList_yn=N&defaultBoardSkin=default&boardWidth=710&multiView_yn=Y&titleCategory_yn=N&category_yn=N&titleNo_yn=Y&titleIcon_yn=N&titlePoint_yn=N&titleMemo_yn=Y&titleNew_yn=Y&titleThumbnail_yn=N&titleNick_yn=Y&titleTag_yn=Y&anonymity_yn=N&titleRead_yn=Y&boardModel_cd=A&titleDate_yn=Y&tag_yn=Y&thumbnailSize=50&readOver_color=%%23336699&boardSerialBadNick=&boardSerialBadContent=&userPw=&userNick=&memoContent=&memoSeq=\(item.no)&pollSeq=&returnURI=&beforeCommand=&starPoint=&provenance=board-read.do&tagsName=&pageScale=&searchOrKey=&searchType=&tag=1"
         
+        let httpSessionRequest = HttpSessionRequest()
+        httpSessionRequest.delegate = self
+        httpSessionRequest.tag = GlobalConst.DELETE_COMMENT
+        httpSessionRequest.requestWithParamString(httpMethod: "POST", resource: "\(GlobalConst.ServerName)/memo-save.do", paramString: bodyString, referer: "\(GlobalConst.ServerName)/board-read.do")
+    }
+    
+    func deleteCommentFinish(_ httpSessionRequest: HttpSessionRequest, _ data: Data) {
+        let str = String(data: data, encoding: .utf8) ?? ""
+        
+        if Utils.numberOfMatches(str, regex: "<b>시스템 메세지입니다</b>") > 0 {
+            let alert = UIAlertController(title: "댓글 삭제 오류", message: "댓글을 삭제할 수 없습니다. 잠시후 다시 해보세요.", preferredStyle: .alert)
+            let confirm = UIAlertAction(title: "확인", style: .default) { (action) in }
+            alert.addAction(confirm)
+            DispatchQueue.main.sync {
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
+        DispatchQueue.main.sync {
+            if selectedCommentRow >= 0 {
+                var commentList = self.articleData!.commentList
+                commentList.remove(at: selectedCommentRow)
+                selectedCommentRow = -1
+                self.articleData!.commentList = commentList
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    func writeReComment(_ item: CommentItem) {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let commentWrite = storyboard.instantiateViewController(withIdentifier: "CommentWrite") as! CommentWrite
+        commentWrite.boardId = self.boardId
+        commentWrite.boardNo = self.boardNo
+        commentWrite.commentNo = item.no
+        commentWrite.delegate = self
+        commentWrite.mode = GlobalConst.REPLY_MODE
+        self.navigationController?.pushViewController(commentWrite, animated: true)
     }
     
     func copyComment(_ item: CommentItem) {
-        
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = item.comment
+        let alert = UIAlertController(title: nil, message: "댓글이 복사되었습니다.", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+
+        // duration in seconds
+        let duration: Double = 1
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+            alert.dismiss(animated: true)
+        }
+        return
     }
     
     func shareComment(_ item: CommentItem) {
-        
+        let activityVC = UIActivityViewController.init(activityItems: [item.comment], applicationActivities: nil)
+        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop,
+                                            UIActivity.ActivityType.copyToPasteboard,
+                                            UIActivity.ActivityType.mail,
+                                            UIActivity.ActivityType.message,
+                                            UIActivity.ActivityType.print]
+        self.present(activityVC, animated: true, completion: nil)
     }
 }
