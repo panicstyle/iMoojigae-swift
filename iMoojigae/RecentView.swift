@@ -45,6 +45,11 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.tableView.reloadData()
     }
     
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -94,7 +99,7 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
             labelComment.layer.borderColor = labelComment.textColor.cgColor;
         }
-        let subject = String(htmlEncodedString: item.subject)
+        let subject = String(htmlEncodedString: item.subject) ?? ""
         textSubject.text = subject
         labelBoardName.text = item.boardName
         labelName.text = item.name + " " + item.date

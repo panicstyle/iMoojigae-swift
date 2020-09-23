@@ -14,17 +14,18 @@
 		EC33A47E2515C66700DCC8FB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC33A47D2515C66700DCC8FB /* Utils.swift */; };
 		EC62F8412518CF6B00452C93 /* CommentWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8402518CF6B00452C93 /* CommentWrite.swift */; };
 		EC62F8472518D8BD00452C93 /* String+Extionsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8462518D8BD00452C93 /* String+Extionsion.swift */; };
+		EC7FF16C251A0CB20020E1CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FF16B251A0CB20020E1CE /* SceneDelegate.swift */; };
 		EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCDA24A754A400E2D337 /* AppDelegate.swift */; };
 		EC86FCE224A754A400E2D337 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE024A754A400E2D337 /* Main.storyboard */; };
 		EC86FCE424A754A400E2D337 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE324A754A400E2D337 /* Assets.xcassets */; };
 		EC86FCE724A754A400E2D337 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE524A754A400E2D337 /* LaunchScreen.storyboard */; };
 		EC86FCF224A754A500E2D337 /* iMoojigaeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCF124A754A500E2D337 /* iMoojigaeTests.swift */; };
 		EC86FCFD24A78EE800E2D337 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCFC24A78EE800E2D337 /* MainView.swift */; };
-		EC86FD2F24A79AD000E2D337 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */; };
 		ECA7C1A8250D12C50036D825 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA7C1A7250D12C50036D825 /* ItemView.swift */; };
 		ECC42FF0250F09BB006E9F67 /* RecentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC42FEF250F09BB006E9F67 /* RecentView.swift */; };
 		ECC42FF2250F1CA6006E9F67 /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC42FF1250F1CA6006E9F67 /* LinkView.swift */; };
 		ECC42FF4250F32D6006E9F67 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC42FF3250F32D6006E9F67 /* ArticleView.swift */; };
+		ECCB6F64251B5EC900DCEF71 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCB6F63251B5EC900DCEF71 /* AboutView.swift */; };
 		ECD7FF4124F6B78D0008F0F3 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */; };
 		ECD9B71224ECB40B00B1B978 /* HttpSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */; };
 		ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71524ECC1A700B1B978 /* AppData.swift */; };
@@ -56,6 +57,8 @@
 		EC33A47D2515C66700DCC8FB /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		EC62F8402518CF6B00452C93 /* CommentWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWrite.swift; sourceTree = "<group>"; };
 		EC62F8462518D8BD00452C93 /* String+Extionsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extionsion.swift"; sourceTree = "<group>"; };
+		EC7FF15E251A09420020E1CE /* iMoojigae.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iMoojigae.entitlements; sourceTree = "<group>"; };
+		EC7FF16B251A0CB20020E1CE /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EC86FCD724A754A400E2D337 /* iMoojigae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMoojigae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC86FCDA24A754A400E2D337 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC86FCE124A754A400E2D337 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,11 +69,11 @@
 		EC86FCF124A754A500E2D337 /* iMoojigaeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMoojigaeTests.swift; sourceTree = "<group>"; };
 		EC86FCF324A754A500E2D337 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC86FCFC24A78EE800E2D337 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		ECA7C1A7250D12C50036D825 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		ECC42FEF250F09BB006E9F67 /* RecentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentView.swift; sourceTree = "<group>"; };
 		ECC42FF1250F1CA6006E9F67 /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
 		ECC42FF3250F32D6006E9F67 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
+		ECCB6F63251B5EC900DCEF71 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpSessionRequest.swift; sourceTree = "<group>"; };
 		ECD9B71524ECC1A700B1B978 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 		EC86FCD924A754A400E2D337 /* iMoojigae */ = {
 			isa = PBXGroup;
 			children = (
+				ECCB6F63251B5EC900DCEF71 /* AboutView.swift */,
 				ECD9B71524ECC1A700B1B978 /* AppData.swift */,
 				EC86FCDA24A754A400E2D337 /* AppDelegate.swift */,
 				ECC42FF3250F32D6006E9F67 /* ArticleView.swift */,
@@ -153,6 +157,7 @@
 				ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */,
 				ECD9B71724ED007300B1B978 /* GlobalConst.swift */,
 				ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */,
+				EC7FF15E251A09420020E1CE /* iMoojigae.entitlements */,
 				EC86FCE824A754A400E2D337 /* Info.plist */,
 				ECA7C1A7250D12C50036D825 /* ItemView.swift */,
 				ECF7BB872512EFE50081AE5B /* KeyboardObserver.swift */,
@@ -162,7 +167,7 @@
 				EC86FCE024A754A400E2D337 /* Main.storyboard */,
 				EC86FCFC24A78EE800E2D337 /* MainView.swift */,
 				ECC42FEF250F09BB006E9F67 /* RecentView.swift */,
-				EC86FD2E24A79AD000E2D337 /* SceneDelegate.swift */,
+				EC7FF16B251A0CB20020E1CE /* SceneDelegate.swift */,
 				EC2911C6250B355300E61269 /* SetView.swift */,
 				EC62F8462518D8BD00452C93 /* String+Extionsion.swift */,
 				EC33A47D2515C66700DCC8FB /* Utils.swift */,
@@ -352,6 +357,7 @@
 				ECD9B71224ECB40B00B1B978 /* HttpSessionRequest.swift in Sources */,
 				ECDA63BA2519AEAB0053B8A1 /* DBInterface.swift in Sources */,
 				EC62F8412518CF6B00452C93 /* CommentWrite.swift in Sources */,
+				ECCB6F64251B5EC900DCEF71 /* AboutView.swift in Sources */,
 				EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */,
 				ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */,
 				EC86FCFD24A78EE800E2D337 /* MainView.swift in Sources */,
@@ -359,12 +365,12 @@
 				ECC42FF0250F09BB006E9F67 /* RecentView.swift in Sources */,
 				EC62F8472518D8BD00452C93 /* String+Extionsion.swift in Sources */,
 				EC33A47E2515C66700DCC8FB /* Utils.swift in Sources */,
-				EC86FD2F24A79AD000E2D337 /* SceneDelegate.swift in Sources */,
 				ECF7BB862511E19E0081AE5B /* ArticleWrite.swift in Sources */,
 				ECA7C1A8250D12C50036D825 /* ItemView.swift in Sources */,
 				ECF7BB882512EFE50081AE5B /* KeyboardObserver.swift in Sources */,
 				EC2911C7250B355300E61269 /* SetView.swift in Sources */,
 				ECC42FF2250F1CA6006E9F67 /* LinkView.swift in Sources */,
+				EC7FF16C251A0CB20020E1CE /* SceneDelegate.swift in Sources */,
 				ECC42FF4250F32D6006E9F67 /* ArticleView.swift in Sources */,
 				EC2911C9250B431600E61269 /* LoginToService.swift in Sources */,
 			);
@@ -528,8 +534,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = iMoojigae/iMoojigae.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8PG9C7Q5V8;
 				INFOPLIST_FILE = "$(SRCROOT)/iMoojigae/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -551,8 +558,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = iMoojigae/iMoojigae.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8PG9C7Q5V8;
 				INFOPLIST_FILE = "$(SRCROOT)/iMoojigae/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

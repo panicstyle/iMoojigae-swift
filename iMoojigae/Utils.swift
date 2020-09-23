@@ -27,6 +27,13 @@ class Utils {
         return String(str[r2!])
     }
     
+    static func replaceStringRegex(_ str: String, regex: String, replace: String) -> String {
+        let range = NSRange(str.startIndex..., in: str)
+        let regex = try! NSRegularExpression(pattern: regex)
+        let str2 = regex.stringByReplacingMatches(in: str, options: [], range: range, withTemplate: replace)
+        return String(str2)
+    }
+    
     static func replaceStringHtmlTag(_ str: String) -> String {
         return str
     }

@@ -9,8 +9,8 @@
 import UIKit
 import GoogleMobileAds
 
-class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, ArticleViewDelegate, ArticleWriteDelegate {
-    
+class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, ArticleViewDelegate, ArticleWriteDelegate, LoginToServiceDelegate {
+
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
@@ -22,6 +22,7 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     var itemList = [Item]()
     var nPage: Int = 1
     var isEndPage = false
+    var isLoginRetry = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,11 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         self.tableView.reloadData()
     }
 
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -77,9 +83,17 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         if isRe == 1 {
             cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierItem, for: indexPath)
             // Fetches the appropriate meal for the data source layout.
+            let imageView: UIImageView = cell.viewWithTag(110) as! UIImageView
             let textSubject: UITextView = cell.viewWithTag(101) as! UITextView
             let labelName: UILabel = cell.viewWithTag(100) as! UILabel
             let labelComment: UILabel = cell.viewWithTag(103) as! UILabel
+            
+            if (item.isNew == 1) {
+                imageView.image = UIImage.init(named: "circle")
+            } else {
+                imageView.image = UIImage.init(named: "circle-black")
+            }
+            
             if item.comment == "" || item.comment == "0" {
                 labelComment.isHidden = true
             } else {
@@ -116,9 +130,17 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierReItem, for: indexPath)
             // Fetches the appropriate meal for the data source layout.
+            let imageView: UIImageView = cell.viewWithTag(310) as! UIImageView
             let textSubject: UITextView = cell.viewWithTag(301) as! UITextView
             let labelName: UILabel = cell.viewWithTag(300) as! UILabel
             let labelComment: UILabel = cell.viewWithTag(303) as! UILabel
+
+            if (item.isNew == 1) {
+                imageView.image = UIImage.init(named: "circle")
+            } else {
+                imageView.image = UIImage.init(named: "circle-black")
+            }
+
             if item.comment == "" || item.comment == "0" {
                 labelComment.isHidden = true
             } else {
@@ -215,6 +237,22 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
         guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
             print("json to Any Error")
+            if isLoginRetry == 0 {
+                isLoginRetry = 1
+                // 재로그인 한다.
+                let loginToService = LoginToService()
+                loginToService.delegate = self
+                loginToService.Login()
+            } else {
+                let str = String(data: data, encoding: .utf8) ?? ""
+                let msg = Utils.findStringRegex(str, regex: "(?<=<b>시스템 메세지입니다</b></font><br>).*?(?=<br>)")
+                let alert = UIAlertController(title: "시스템 메시지입니다", message: msg, preferredStyle: .alert)
+                let confirm = UIAlertAction(title: "확인", style: .default) { (action) in }
+                alert.addAction(confirm)
+                DispatchQueue.main.sync {
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
             return
         }
         // 원하는 작업
@@ -253,6 +291,30 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         loadData()
     }
     
+    //MARK: - LoginToServiceDelegate
+    
+    func loginToService(_ loginToService: LoginToService, loginWithSuccess result: String) {
+        loadData()
+    }
+    
+    func loginToService(_ loginToService: LoginToService, loginWithFail result: String) {
+        let alert = UIAlertController(title: "로그인 오류", message: "설정에서 로그인 정보를 확인하세요.", preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { (action) in }
+        alert.addAction(confirm)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func loginToService(_ loginToService: LoginToService, logoutWithSuccess result: String) {
+    }
+    
+    func loginToService(_ loginToService: LoginToService, logoutWithFail result: String) {
+    }
+    
+    func loginToService(_ loginToService: LoginToService, pushWithSuccess result: String) {
+    }
+    
+    func loginToService(_ loginToService: LoginToService, pushWithFail result: String) {        
+    }
     
     //MARK: - Private Methods
     

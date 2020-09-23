@@ -25,13 +25,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if #available(iOS 12.0, *) {
             options.insert(.providesAppNotificationSettings)
         }
+        center.delegate = self
         center.requestAuthorization(options: options) { (granted, error) in
             // Enable or disable features based on authorization
-
+            if error != nil {
+                print("Push registration FAILED")
+                print("Error: \(error?.localizedDescription ?? "")")
             }
-            application.registerForRemoteNotifications()
-        
+        }
+        application.registerForRemoteNotifications()
+
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+
+        dUserInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable : Any]
+        if dUserInfo != nil {
+            moveToViewController()
+        }
         
         return true
     }
@@ -48,10 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        print("applicationWillEnterForeground")
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("applicationWillEnterForeground")
         if self.dUserInfo != nil {
             moveToViewController()
         }
@@ -83,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Registration failed!")
+        print("Registration failed! error=\(error.localizedDescription)")
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {

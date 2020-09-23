@@ -14,7 +14,7 @@ protocol ArticleViewDelegate {
     func articleView(_ articleView: ArticleView, didDelete row: Int)
 }
 
-class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate, UIDocumentInteractionControllerDelegate, ArticleWriteDelegate, CommentWriteDelegate {
+class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, WKUIDelegate, WKNavigationDelegate, UIDocumentInteractionControllerDelegate, ArticleWriteDelegate, CommentWriteDelegate, LoginToServiceDelegate {
 
     //MARK: Properties
     
@@ -40,6 +40,7 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var editableSubject = ""
     var editableContent = ""
     var selectedCommentRow = -1
+    var isLoginRetry = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +83,11 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         let baseUrl = URL(string: GlobalConst.ServerName)
         self.webView?.loadHTMLString(strHtml, baseURL: baseUrl)
         self.tableView.reloadData()
+    }
+    
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Table view data source
@@ -230,13 +236,13 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     // MARK: - WKWebViewDelegate
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        let titleFont = UIFont.preferredFont(forTextStyle: .body)
-        let pointSize: Int = Int(Double(titleFont.pointSize / 17.0) * 100);
-        let fontSize = "document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '" + String(pointSize) + "%%'"
-        let padding = "document.body.style.padding='0px 8px 0px 8px';"
+//        let titleFont = UIFont.preferredFont(forTextStyle: .body)
+//        let pointSize: Int = Int(Double(titleFont.pointSize / 17.0) * 100);
+//        let fontSize = "document.getElementsByTagName(\"body\")[0].style.webkitTextSizeAdjust=\"\(pointSize)%%\";"
+        let padding = "document.body.style.padding=\"0px 8px 0px 8px\";"
         let calcSize = "document.body.scrollHeight;"
         self.webView?.evaluateJavaScript(padding, completionHandler: nil)
-        self.webView?.evaluateJavaScript(fontSize, completionHandler: nil)
+//        self.webView?.evaluateJavaScript(fontSize, completionHandler: nil)
         self.webView?.evaluateJavaScript(calcSize, completionHandler: { (object, error) in
             let result = object as? NSNumber ?? 0
             if result == 0 {
@@ -398,6 +404,32 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         loadData()
     }
     
+    //MARK: - LoginToServiceDelegate
+    
+    func loginToService(_ loginToService: LoginToService, loginWithSuccess result: String) {
+        // Load the data.
+        loadData()
+    }
+    
+    func loginToService(_ loginToService: LoginToService, loginWithFail result: String) {
+        let alert = UIAlertController(title: "로그인 오류", message: "설정에서 로그인 정보를 확인하세요.", preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { (action) in }
+        alert.addAction(confirm)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func loginToService(_ loginToService: LoginToService, logoutWithSuccess result: String) {
+    }
+    
+    func loginToService(_ loginToService: LoginToService, logoutWithFail result: String) {
+    }
+    
+    func loginToService(_ loginToService: LoginToService, pushWithSuccess result: String) {
+    }
+    
+    func loginToService(_ loginToService: LoginToService, pushWithFail result: String) {        
+    }
+    
     //MARK: - Private Methods
     
     private func loadData() {
@@ -437,7 +469,7 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         var strContent: String = self.articleData!.content
         strContent = strContent.replacingOccurrences(of: "<img ", with: "<img onclick=\"myapp_clickImg(this)\" width=300 ")
-/*
+
         let strDarkModeCss: String = """
         <style type="text/css">
         @media (prefers-color-scheme: dark) { \
@@ -454,20 +486,28 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         }
         </style>
         """
-*/
+
+        let titleFont = UIFont.preferredFont(forTextStyle: .body)
+        
+        var strContent2 = Utils.replaceStringRegex(strContent, regex: "(font-size).*?(;)", replace: "")
+        strContent2 = Utils.replaceStringRegex(strContent2, regex: "(background-color).*?(;)", replace: "")
+        
         strHtml = ""
-        strHtml += "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">"
+//        strHtml += "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">"
         strHtml += "<html><head>"
         strHtml += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
         strHtml += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi\">"
         strHtml += "<script>function myapp_clickImg(obj){window.location=\"jscall://\"+encodeURIComponent(obj.src);}</script>"
-/*
+
         if self.isDarkMode {
             strHtml += strDarkModeCss
         }
-*/
-        strHtml += "</head><body>"
-        strHtml += strContent
+
+        //        strHtml += "<style> html, body, table { font-size: \(pointSize)% !important; } </style>"
+        strHtml += "<style> html, body, table { font-size: \(titleFont.pointSize) !important; } </style>"
+        strHtml += "</head>"
+        strHtml += "<body>"
+        strHtml += strContent2
         strHtml += strImage
         strHtml += strAttach
         strHtml += "<hr>"
@@ -493,16 +533,18 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
         self.webView = WKWebView.init(frame: CGRect(x: 0, y: 0, width: (self.view.frame.size.width), height: (self.cellContent?.frame.size.height)!), configuration: config!)
         self.webView?.uiDelegate = self
         self.webView?.navigationDelegate = self
-/*
+
         if self.isDarkMode {
             self.webView?.backgroundColor = UIColor(red: 38, green: 38, blue: 41, alpha: 1)
         } else {
             self.webView?.backgroundColor = .white
         }
- */
+
         self.webView?.backgroundColor = .white
         self.webView?.isOpaque = false
         self.webView?.loadHTMLString(strHtml, baseURL: baseUrl)
+        
+        self.tableView.reloadData()
     }
     
     @objc func articleMenu() {
@@ -563,6 +605,22 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     func readArticleFinish(_ httpSessionRequest: HttpSessionRequest, _ data: Data) {
         guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
             print("json to Any Error")
+            if isLoginRetry == 0 {
+                isLoginRetry = 1
+                // 재로그인 한다.
+                let loginToService = LoginToService()
+                loginToService.delegate = self
+                loginToService.Login()
+            } else {
+                let str = String(data: data, encoding: .utf8) ?? ""
+                let msg = Utils.findStringRegex(str, regex: "(?<=<b>시스템 메세지입니다</b></font><br>).*?(?=<br>)")
+                let alert = UIAlertController(title: "시스템 메시지입니다", message: msg, preferredStyle: .alert)
+                let confirm = UIAlertAction(title: "확인", style: .default) { (action) in }
+                alert.addAction(confirm)
+                DispatchQueue.main.sync {
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
             return
         }
         // 원하는 작업
@@ -682,7 +740,7 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     func copyComment(_ item: CommentItem) {
         let pasteboard = UIPasteboard.general
-        pasteboard.string = item.comment
+        pasteboard.string = String(htmlEncodedString: item.comment)
         let alert = UIAlertController(title: nil, message: "댓글이 복사되었습니다.", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
 
@@ -695,12 +753,18 @@ class ArticleView: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func shareComment(_ item: CommentItem) {
-        let activityVC = UIActivityViewController.init(activityItems: [item.comment], applicationActivities: nil)
+        let comment = String(htmlEncodedString: item.comment) ?? ""
+        let activityVC = UIActivityViewController.init(activityItems: [comment], applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop,
                                             UIActivity.ActivityType.copyToPasteboard,
                                             UIActivity.ActivityType.mail,
                                             UIActivity.ActivityType.message,
                                             UIActivity.ActivityType.print]
+        activityVC.completionWithItemsHandler = { activity, success, items, error in
+         if success {
+          // Success handling here
+         }
+        }
         self.present(activityVC, animated: true, completion: nil)
     }
 }

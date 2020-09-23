@@ -49,6 +49,11 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
     @objc func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
     }
+
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
+    }
     
     //MARK: - Table view data source
 
@@ -136,6 +141,10 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
             linkView.linkName = menuData!.title
             linkView.link = menuData!.value
             linkView.config = config
+        case "About":
+            guard segue.destination is AboutView else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }

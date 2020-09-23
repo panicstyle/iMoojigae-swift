@@ -49,6 +49,11 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.tableView.reloadData()
     }
     
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     //MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {

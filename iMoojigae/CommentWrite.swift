@@ -88,6 +88,11 @@ class CommentWrite: UIViewController, UITextViewDelegate, UINavigationController
         textView.font = bodyFont
     }
     
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - TextViewDelegate
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -139,10 +144,10 @@ class CommentWrite: UIViewController, UITextViewDelegate, UINavigationController
     func textViewSetupView() {
         if textView.text == "내용을 입력하세요." {
             textView.text = ""
-            textView.textColor = UIColor.black
+//            textView.textColor = UIColor.black
         } else if textView.text == "" {
             textView.text = "내용을 입력하세요."
-            textView.textColor = UIColor.lightGray
+//            textView.textColor = UIColor.lightGray
         }
     }
     

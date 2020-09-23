@@ -9,6 +9,40 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--About View-->
+        <scene sceneID="8AY-AB-5Zj">
+            <objects>
+                <viewController id="ewm-Ef-saL" customClass="AboutView" customModule="iMoojigae" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uOO-zK-b6I">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8mN-kd-rgL">
+                                <rect key="frame" x="20" y="44" width="374" height="672"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pOr-mx-mLO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="8mN-kd-rgL" firstAttribute="leading" secondItem="pOr-mx-mLO" secondAttribute="leading" constant="20" id="J0U-mS-jMq"/>
+                            <constraint firstItem="pOr-mx-mLO" firstAttribute="trailing" secondItem="8mN-kd-rgL" secondAttribute="trailing" constant="20" id="LTA-Bt-5eE"/>
+                            <constraint firstItem="8mN-kd-rgL" firstAttribute="top" secondItem="pOr-mx-mLO" secondAttribute="top" id="UP0-rc-eoU"/>
+                            <constraint firstItem="pOr-mx-mLO" firstAttribute="bottom" secondItem="8mN-kd-rgL" secondAttribute="bottom" constant="20" id="ekd-Xt-HZG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Me5-kN-d2e"/>
+                    <connections>
+                        <outlet property="textView" destination="8mN-kd-rgL" id="k92-A7-2O0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hyj-if-fus" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-656.52173913043487" y="-513.58695652173913"/>
+        </scene>
         <!--Main View-->
         <scene sceneID="qUG-KG-nae">
             <objects>
@@ -104,6 +138,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5jE-fG-wGb">
+                        <barButtonItem key="leftBarButtonItem" title="앱정보" id="8gA-dL-f2g">
+                            <connections>
+                                <segue destination="ewm-Ef-saL" kind="show" identifier="About" id="Hxq-nt-9p2"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="설정" id="wRL-xm-rEV">
                             <connections>
                                 <segue destination="VJl-Er-vwx" kind="show" identifier="SetView" id="Wfd-90-31x"/>
@@ -209,7 +248,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="idField" destination="4TG-cm-DdW" id="Wnv-Dw-Ptj"/>
+                        <outlet property="idLabel" destination="rec-Zp-Ux9" id="Mo2-cd-lLN"/>
                         <outlet property="pwField" destination="q0R-KJ-gt0" id="3JK-Zt-aOC"/>
+                        <outlet property="pwLabel" destination="n2E-W5-Veh" id="NS1-RS-mEl"/>
+                        <outlet property="swLabel" destination="EfA-Bo-M7C" id="cTc-Na-6E8"/>
                         <outlet property="swPush" destination="pdq-p5-xl3" id="hcg-IX-Gyr"/>
                     </connections>
                 </viewController>
@@ -1020,9 +1062,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Myx-H7-FhM"/>
+        <segue reference="hcJ-BG-brP"/>
         <segue reference="Qqt-d2-6gT"/>
-        <segue reference="dZV-Od-69j"/>
+        <segue reference="iAG-lh-Mb6"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_image" width="24" height="24"/>

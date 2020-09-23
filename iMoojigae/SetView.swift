@@ -16,13 +16,28 @@ protocol SetViewDelegate {
 class SetView : UIViewController, LoginToServiceDelegate {
 
     //MARK: Properties
-    
+
+    @IBOutlet var idLabel : UILabel!
+    @IBOutlet var pwLabel : UILabel!
+    @IBOutlet var swLabel : UILabel!
+
     @IBOutlet var idField : UITextField!
     @IBOutlet var pwField : UITextField!
     @IBOutlet var swPush : UISwitch!
 
     override func viewDidLoad() {
         self.title = "설정"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
+                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
+        
+        let bodyFont = UIFont.preferredFont(forTextStyle: .body)
+        idLabel.font = bodyFont
+        pwLabel.font = bodyFont
+        swLabel.font = bodyFont
+        
+        idField.font = bodyFont
+        pwField.font = bodyFont
         
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let fullPath = paths[0].appendingPathComponent("set.dat")
@@ -43,28 +58,19 @@ class SetView : UIViewController, LoginToServiceDelegate {
         super.viewDidLoad()
     }
     
-    @IBAction func actionSave(_ sender: UIBarButtonItem) {
-        if idField.text == "" || pwField.text == "" {
-            showAlert()
-            return
-        }
+    @objc func contentSizeCategoryDidChangeNotification() {
+        let bodyFont = UIFont.preferredFont(forTextStyle: .body)
+        idLabel.font = bodyFont
+        pwLabel.font = bodyFont
+        swLabel.font = bodyFont
         
-        var swPushValue = 0
-        if swPush.isOn {
-            swPushValue = 1
-        }
-        
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let fullPath = paths[0].appendingPathComponent("set.dat")
-        let setStorage = SetStorage.init(userId: idField.text ?? "", userPwd: pwField.text ?? "", swPush: NSNumber(value: swPushValue))
-        // Archive
-        if let dataToBeArchived = try? NSKeyedArchiver.archivedData(withRootObject: setStorage, requiringSecureCoding: false) {
-            try? dataToBeArchived.write(to: fullPath)
-        }
-        
-        let loginToService = LoginToService()
-        loginToService.delegate = self
-        loginToService.Logout()
+        idField.font = bodyFont
+        pwField.font = bodyFont
+    }
+    
+    deinit {
+        // perform the deinitialization
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - LoginToServiceDelegate
@@ -122,4 +128,30 @@ class SetView : UIViewController, LoginToServiceDelegate {
         alert.addAction(confirm)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    @IBAction func actionSave(_ sender: UIBarButtonItem) {
+        if idField.text == "" || pwField.text == "" {
+            showAlert()
+            return
+        }
+        
+        var swPushValue = 0
+        if swPush.isOn {
+            swPushValue = 1
+        }
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let fullPath = paths[0].appendingPathComponent("set.dat")
+        let setStorage = SetStorage.init(userId: idField.text ?? "", userPwd: pwField.text ?? "", swPush: NSNumber(value: swPushValue))
+        // Archive
+        if let dataToBeArchived = try? NSKeyedArchiver.archivedData(withRootObject: setStorage, requiringSecureCoding: false) {
+            try? dataToBeArchived.write(to: fullPath)
+        }
+        
+        let loginToService = LoginToService()
+        loginToService.delegate = self
+        loginToService.Logout()
+    }
+    
+
 }
