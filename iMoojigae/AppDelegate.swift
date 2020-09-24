@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        application.applicationIconBadgeNumber = 0
         
         //create the notificationCenter
         let center = UNUserNotificationCenter.current()
@@ -133,6 +134,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         articleView.selectedRow = -1
         let navigationController = self.window?.rootViewController as! UINavigationController
         navigationController.pushViewController(articleView, animated: true)
+        
+        dUserInfo = nil
     }
     
     func articleView(_ articleView: ArticleView, didDelete row: Int) {

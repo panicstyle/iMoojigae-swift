@@ -104,6 +104,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UNUserNotificationCente
         articleView.selectedRow = -1
         let navigationController = self.window?.rootViewController as! UINavigationController
         navigationController.pushViewController(articleView, animated: true)
+        
+        dUserInfo = nil
     }
     
     func articleView(_ articleView: ArticleView, didDelete row: Int) {
