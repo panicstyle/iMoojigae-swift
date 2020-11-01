@@ -35,4 +35,7 @@ class GlobalConst {
     static let READ_ARTICLE = 1
     static let DELETE_ARTICLE = 2
     static let DELETE_COMMENT = 3
+    
+    static let RECENT_MENU_DATA = 1
+    static let RECENT_ITEM_DATA = 2
 }

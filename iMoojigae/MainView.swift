@@ -27,7 +27,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
         NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
                                                name: UIContentSizeCategory.didChangeNotification, object: nil)
         
-        self.title = "무지개교육마을"
+        self.title = "게시판"
         
         // GoogleMobileAds
         self.bannerView.adUnitID = GlobalConst.AdUnitID
@@ -218,7 +218,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
     private func loadData() {
         let httpSessionRequest = HttpSessionRequest()
         httpSessionRequest.delegate = self
-        httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-menu.do?comm=moo_menu", param: nil, referer: "")
+        httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-menu.do?comm=moo2_menu", param: nil, referer: "")
     }
 }
 

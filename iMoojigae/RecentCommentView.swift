@@ -9,14 +9,13 @@
 import UIKit
 import GoogleMobileAds
 
-class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
+class RecentCommentView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
 
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
     @IBOutlet var bannerView: GADBannerView!
     var recent: String = ""
-    var type: String = ""
     private let refreshControl = UIRefreshControl()
     
     var itemList = [RecentItem]()
@@ -31,7 +30,7 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
                                                name: UIContentSizeCategory.didChangeNotification, object: nil)
         
-        self.title = "최신글보기"
+        self.title = "최신댓글보기"
         
         // GoogleMobileAds
         self.bannerView.adUnitID = GlobalConst.AdUnitID
@@ -153,7 +152,7 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             break
         case "About":
             break
-            
+
         case "Article":
             guard let articleView = segue.destination as? ArticleView else {
                 fatalError("Unexpected destination: \(segue.destination)")
@@ -201,6 +200,7 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 self.refreshControl.endRefreshing()
             }
         }
+
     }
 
     func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
@@ -214,9 +214,9 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         httpSessionRequest.tag = GlobalConst.RECENT_MENU_DATA
         httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/board-api-menu.do?comm=moo2_menu", param: nil, referer: "")
     }
-
+    
     private func loadData() {
-        let doLink: String = "board-api-recent.do"
+        let doLink: String = "board-api-recent-memo.do"
         
         let httpSessionRequest = HttpSessionRequest()
         httpSessionRequest.delegate = self
