@@ -11,47 +11,27 @@ import os.log
 import WebKit
 import GoogleMobileAds
 
-class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
+class BoardView : CommonBannerView, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: Properties
 
     @IBOutlet var tableView : UITableView!
-    @IBOutlet var bannerView: GADBannerView!
     var menuName: String = ""
     var menuId: String = ""
     
     var boardData = BoardData()
-    var config: WKWebViewConfiguration?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
-                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
         self.title = menuName
         
-        // GoogleMobileAds
-        self.bannerView.adUnitID = GlobalConst.AdUnitID
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
-
         // Load the data.
         loadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @objc func contentSizeCategoryDidChangeNotification() {
+    @objc override func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
-    }
-    
-    deinit {
-        // perform the deinitialization
-        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - Table view data source
@@ -148,7 +128,7 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     //MARK: - HttpSessionRequestDelegate
     
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
+    override func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
         guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
             print("json to Any Error")
             return
@@ -175,9 +155,6 @@ class BoardView : UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             self.tableView.reloadData()
         }
-    }
-
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
     }
 
     //MARK: Private Methods

@@ -10,7 +10,7 @@ import Foundation
 
 class GlobalConst {
     static var userId = ""
-    static var swPush = 0
+    static var swPush = false
     
     static let ServerName = "https://jumin.moojigae.or.kr"
     static let AdUnitID = "ca-app-pub-9032980304073628/9510593996"

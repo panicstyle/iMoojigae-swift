@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var dUserInfo: [AnyHashable: Any]?
+    var commonViews: [Int : Any] = [Int : Any]()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -43,6 +44,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             moveToViewController()
         }
         
+        let defaults = UserDefaults.standard
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let fullPath = paths[0].appendingPathComponent("set.dat")
+        do {
+            let fileData = try Data(contentsOf: fullPath)
+            let setStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetStorage
+            
+            let userId = String(setStorage.userId)
+            let userPw = String(setStorage.userPwd)
+            let swPush = setStorage.swPush == 1 ? true : false
+            
+            defaults.set(userId, forKey: "userId")
+            defaults.set(userPw, forKey: "userPw")
+            defaults.set(swPush, forKey: "push")
+            
+            let filePathName = "/\(fullPath)"
+            try FileManager.default.removeItem(atPath: filePathName)
+
+        } catch {
+            print("Couldn't read set.dat file")
+        }
+        
+        let fullPath2 = paths[0].appendingPathComponent("token.dat")
+        var token = ""
+        do {
+            let fileData = try Data(contentsOf: fullPath2)
+            let setTokenStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetTokenStorage
+            token = String(setTokenStorage.token)
+            
+            defaults.set(token, forKey: "token")
+
+            let filePathName = "/\(fullPath2)"
+            try FileManager.default.removeItem(atPath: filePathName)
+
+        } catch {
+            print("Couldn't read token.dat file")
+        }
+            
         return true
     }
 
@@ -85,13 +125,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Registration succeeded!")
         print("Token: ", token)
         
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let fullPath = paths[0].appendingPathComponent("token.dat")
-        let setTokenStorage = SetTokenStorage.init(token: token)
-        // Archive
-        if let dataToBeArchived = try? NSKeyedArchiver.archivedData(withRootObject: setTokenStorage, requiringSecureCoding: false) {
-            try? dataToBeArchived.write(to: fullPath)
-        }
+        let defaults = UserDefaults.standard
+        defaults.set(token, forKey: "token")
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

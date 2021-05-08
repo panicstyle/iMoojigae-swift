@@ -9,12 +9,11 @@
 import UIKit
 import GoogleMobileAds
 
-class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, ArticleViewDelegate, ArticleWriteDelegate, LoginToServiceDelegate {
+class ItemView: CommonBannerView, UITableViewDelegate, UITableViewDataSource, ArticleViewDelegate, ArticleWriteDelegate {
 
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
-    @IBOutlet var bannerView: GADBannerView!
     var boardTitle: String = ""
     var boardType: String = ""
     var boardId: String = ""
@@ -27,29 +26,16 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
-                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
         self.title = boardTitle
-        
-        // GoogleMobileAds
-        self.bannerView.adUnitID = GlobalConst.AdUnitID
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
         
         // Load the data.
         loadData()
     }
     
-    @objc func contentSizeCategoryDidChangeNotification() {
+    @objc override func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
     }
 
-    deinit {
-        // perform the deinitialization
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -234,7 +220,7 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     
     //MARK: - HttpSessionRequestDelegate
     
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
+    override func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
         guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
             print("json to Any Error")
             if isLoginRetry == 0 {
@@ -272,9 +258,6 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
         }
     }
 
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
-    }
-
     //MARK: - Private Methods
 
     func articleView(_ articleView: ArticleView, didDelete row: Int) {
@@ -293,27 +276,15 @@ class ItemView: UIViewController, UITableViewDelegate, UITableViewDataSource, Ht
     
     //MARK: - LoginToServiceDelegate
     
-    func loginToService(_ loginToService: LoginToService, loginWithSuccess result: String) {
+    override func loginToService(_ loginToService: LoginToService, loginWithSuccess result: String) {
         loadData()
     }
     
-    func loginToService(_ loginToService: LoginToService, loginWithFail result: String) {
+    override func loginToService(_ loginToService: LoginToService, loginWithFail result: String) {
         let alert = UIAlertController(title: "로그인 오류", message: "설정에서 로그인 정보를 확인하세요.", preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) { (action) in }
         alert.addAction(confirm)
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    func loginToService(_ loginToService: LoginToService, logoutWithSuccess result: String) {
-    }
-    
-    func loginToService(_ loginToService: LoginToService, logoutWithFail result: String) {
-    }
-    
-    func loginToService(_ loginToService: LoginToService, pushWithSuccess result: String) {
-    }
-    
-    func loginToService(_ loginToService: LoginToService, pushWithFail result: String) {        
     }
     
     //MARK: - Private Methods

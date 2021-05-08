@@ -15,7 +15,7 @@
 		EC4F79C1254D2059003B0495 /* RecentCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4F79C0254D2059003B0495 /* RecentCommentView.swift */; };
 		EC4F79C7254DAF3F003B0495 /* SetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4F79C6254DAF3F003B0495 /* SetMainView.swift */; };
 		EC62F8412518CF6B00452C93 /* CommentWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8402518CF6B00452C93 /* CommentWrite.swift */; };
-		EC62F8472518D8BD00452C93 /* String+Extionsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8462518D8BD00452C93 /* String+Extionsion.swift */; };
+		EC62F8472518D8BD00452C93 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8462518D8BD00452C93 /* String+Extension.swift */; };
 		EC7FF16C251A0CB20020E1CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FF16B251A0CB20020E1CE /* SceneDelegate.swift */; };
 		EC86FCDB24A754A400E2D337 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC86FCDA24A754A400E2D337 /* AppDelegate.swift */; };
 		EC86FCE224A754A400E2D337 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC86FCE024A754A400E2D337 /* Main.storyboard */; };
@@ -33,6 +33,8 @@
 		ECD9B71624ECC1A700B1B978 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71524ECC1A700B1B978 /* AppData.swift */; };
 		ECD9B71824ED007300B1B978 /* GlobalConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B71724ED007300B1B978 /* GlobalConst.swift */; };
 		ECDA63BA2519AEAB0053B8A1 /* DBInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */; };
+		ECEBEFE82644FA7300BE2954 /* CommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBEFE72644FA7300BE2954 /* CommonView.swift */; };
+		ECEBEFEA26450C0400BE2954 /* CommonBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBEFE926450C0400BE2954 /* CommonBannerView.swift */; };
 		ECF7BB862511E19E0081AE5B /* ArticleWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */; };
 		ECF7BB882512EFE50081AE5B /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7BB872512EFE50081AE5B /* KeyboardObserver.swift */; };
 /* End PBXBuildFile section */
@@ -60,7 +62,7 @@
 		EC4F79C0254D2059003B0495 /* RecentCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentCommentView.swift; sourceTree = "<group>"; };
 		EC4F79C6254DAF3F003B0495 /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
 		EC62F8402518CF6B00452C93 /* CommentWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWrite.swift; sourceTree = "<group>"; };
-		EC62F8462518D8BD00452C93 /* String+Extionsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extionsion.swift"; sourceTree = "<group>"; };
+		EC62F8462518D8BD00452C93 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		EC7FF15E251A09420020E1CE /* iMoojigae.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iMoojigae.entitlements; sourceTree = "<group>"; };
 		EC7FF16B251A0CB20020E1CE /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EC86FCD724A754A400E2D337 /* iMoojigae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMoojigae.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +85,8 @@
 		ECD9B71524ECC1A700B1B978 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		ECD9B71724ED007300B1B978 /* GlobalConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConst.swift; sourceTree = "<group>"; };
 		ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBInterface.swift; sourceTree = "<group>"; };
+		ECEBEFE72644FA7300BE2954 /* CommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonView.swift; sourceTree = "<group>"; };
+		ECEBEFE926450C0400BE2954 /* CommonBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonBannerView.swift; sourceTree = "<group>"; };
 		ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWrite.swift; sourceTree = "<group>"; };
 		ECF7BB872512EFE50081AE5B /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +131,34 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		EC2EA9AD26455389007F6928 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ECCB6F63251B5EC900DCEF71 /* AboutView.swift */,
+				ECC42FF3250F32D6006E9F67 /* ArticleView.swift */,
+				ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */,
+				ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */,
+				EC62F8402518CF6B00452C93 /* CommentWrite.swift */,
+				ECA7C1A7250D12C50036D825 /* ItemView.swift */,
+				ECC42FF1250F1CA6006E9F67 /* LinkView.swift */,
+				EC86FCFC24A78EE800E2D337 /* MainView.swift */,
+				EC4F79C0254D2059003B0495 /* RecentCommentView.swift */,
+				ECC42FEF250F09BB006E9F67 /* RecentView.swift */,
+				EC4F79C6254DAF3F003B0495 /* SetMainView.swift */,
+				EC2911C6250B355300E61269 /* SetView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		EC2EA9AE264553E3007F6928 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				ECEBEFE926450C0400BE2954 /* CommonBannerView.swift */,
+				ECEBEFE72644FA7300BE2954 /* CommonView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		EC86FCCE24A754A400E2D337 = {
 			isa = PBXGroup;
 			children = (
@@ -150,32 +182,22 @@
 		EC86FCD924A754A400E2D337 /* iMoojigae */ = {
 			isa = PBXGroup;
 			children = (
-				ECCB6F63251B5EC900DCEF71 /* AboutView.swift */,
+				EC2EA9AE264553E3007F6928 /* Common */,
+				EC2EA9AD26455389007F6928 /* View */,
 				ECD9B71524ECC1A700B1B978 /* AppData.swift */,
 				EC86FCDA24A754A400E2D337 /* AppDelegate.swift */,
-				ECC42FF3250F32D6006E9F67 /* ArticleView.swift */,
-				ECF7BB852511E19E0081AE5B /* ArticleWrite.swift */,
 				EC86FCE324A754A400E2D337 /* Assets.xcassets */,
-				ECD7FF4024F6B78D0008F0F3 /* BoardView.swift */,
-				EC62F8402518CF6B00452C93 /* CommentWrite.swift */,
 				ECDA63B92519AEAB0053B8A1 /* DBInterface.swift */,
 				ECD9B71724ED007300B1B978 /* GlobalConst.swift */,
 				ECD9B71124ECB40B00B1B978 /* HttpSessionRequest.swift */,
 				EC7FF15E251A09420020E1CE /* iMoojigae.entitlements */,
 				EC86FCE824A754A400E2D337 /* Info.plist */,
-				ECA7C1A7250D12C50036D825 /* ItemView.swift */,
 				ECF7BB872512EFE50081AE5B /* KeyboardObserver.swift */,
 				EC86FCE524A754A400E2D337 /* LaunchScreen.storyboard */,
-				ECC42FF1250F1CA6006E9F67 /* LinkView.swift */,
 				EC2911C8250B431600E61269 /* LoginToService.swift */,
 				EC86FCE024A754A400E2D337 /* Main.storyboard */,
-				EC86FCFC24A78EE800E2D337 /* MainView.swift */,
-				EC4F79C0254D2059003B0495 /* RecentCommentView.swift */,
-				ECC42FEF250F09BB006E9F67 /* RecentView.swift */,
 				EC7FF16B251A0CB20020E1CE /* SceneDelegate.swift */,
-				EC4F79C6254DAF3F003B0495 /* SetMainView.swift */,
-				EC2911C6250B355300E61269 /* SetView.swift */,
-				EC62F8462518D8BD00452C93 /* String+Extionsion.swift */,
+				EC62F8462518D8BD00452C93 /* String+Extension.swift */,
 				EC33A47D2515C66700DCC8FB /* Utils.swift */,
 			);
 			path = iMoojigae;
@@ -370,13 +392,15 @@
 				EC86FCFD24A78EE800E2D337 /* MainView.swift in Sources */,
 				EC4F79C1254D2059003B0495 /* RecentCommentView.swift in Sources */,
 				ECD9B71824ED007300B1B978 /* GlobalConst.swift in Sources */,
+				ECEBEFEA26450C0400BE2954 /* CommonBannerView.swift in Sources */,
 				ECC42FF0250F09BB006E9F67 /* RecentView.swift in Sources */,
-				EC62F8472518D8BD00452C93 /* String+Extionsion.swift in Sources */,
+				EC62F8472518D8BD00452C93 /* String+Extension.swift in Sources */,
 				EC33A47E2515C66700DCC8FB /* Utils.swift in Sources */,
 				ECF7BB862511E19E0081AE5B /* ArticleWrite.swift in Sources */,
 				ECA7C1A8250D12C50036D825 /* ItemView.swift in Sources */,
 				ECF7BB882512EFE50081AE5B /* KeyboardObserver.swift in Sources */,
 				EC2911C7250B355300E61269 /* SetView.swift in Sources */,
+				ECEBEFE82644FA7300BE2954 /* CommonView.swift in Sources */,
 				ECC42FF2250F1CA6006E9F67 /* LinkView.swift in Sources */,
 				EC7FF16C251A0CB20020E1CE /* SceneDelegate.swift in Sources */,
 				ECC42FF4250F32D6006E9F67 /* ArticleView.swift in Sources */,

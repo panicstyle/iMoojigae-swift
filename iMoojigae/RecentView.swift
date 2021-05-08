@@ -9,12 +9,11 @@
 import UIKit
 import GoogleMobileAds
 
-class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
+class RecentView: CommonBannerView, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
-    @IBOutlet var bannerView: GADBannerView!
     var recent: String = ""
     var type: String = ""
     private let refreshControl = UIRefreshControl()
@@ -28,21 +27,13 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         // Configure Refresh Control
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
-                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
         self.title = "최신글보기"
-        
-        // GoogleMobileAds
-        self.bannerView.adUnitID = GlobalConst.AdUnitID
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
         
         // Load the data.
         loadMenuData()
     }
 
-    @objc func contentSizeCategoryDidChangeNotification() {
+    @objc override func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
     }
     
@@ -50,11 +41,6 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         // Fetch Weather Data
         // Load the data.
         loadData()
-    }
-    
-    deinit {
-        // perform the deinitialization
-        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Table view data source
@@ -149,11 +135,6 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         switch(segue.identifier ?? "") {
             
-        case "SetView":
-            break
-        case "About":
-            break
-            
         case "Article":
             guard let articleView = segue.destination as? ArticleView else {
                 fatalError("Unexpected destination: \(segue.destination)")
@@ -172,7 +153,7 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     //MARK: - HttpSessionRequestDelegate
     
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
+    override func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
         if httpSessionRequest.tag == GlobalConst.RECENT_MENU_DATA {
             guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                 print("json to Any Error")
@@ -201,9 +182,6 @@ class RecentView: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 self.refreshControl.endRefreshing()
             }
         }
-    }
-
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
     }
 
     //MARK: Private Methods

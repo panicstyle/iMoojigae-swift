@@ -21,20 +21,13 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
     var delegate: LoginToServiceDelegate?
     var userId : String = ""
     var userPwd : String = ""
-    var swPush : NSNumber = 1
+    var push : Bool = true
     
     func Login() {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let fullPath = paths[0].appendingPathComponent("set.dat")
-        do {
-            let fileData = try Data(contentsOf: fullPath)
-            let setStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetStorage
-            userId = String(setStorage.userId)
-            userPwd = String(setStorage.userPwd)
-            swPush = setStorage.swPush
-        } catch {
-            print("Couldn't read set.dat file")
-        }
+        let defaults = UserDefaults.standard
+        userId = defaults.object(forKey: "userId") as? String ?? ""
+        userPwd = defaults.object(forKey: "userPw") as? String ?? ""
+        push = defaults.bool(forKey: "push")
         
         let paramString = "userId=" + userId + "&userPw=" + userPwd + "&boardId=&boardNo=&page=1&categoryId=-1&returnURI=&returnBoardNo=&beforeCommand=&command=LOGIN"
 
@@ -55,16 +48,8 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
     }
 
     func PushRegister() {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let fullPath = paths[0].appendingPathComponent("token.dat")
-        var token = ""
-        do {
-            let fileData = try Data(contentsOf: fullPath)
-            let setTokenStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetTokenStorage
-            token = String(setTokenStorage.token)
-        } catch {
-            print("Couldn't read token.dat file")
-        }
+        let defaults = UserDefaults.standard
+        let token = defaults.object(forKey: "token") as? String ?? ""
         
         if token == "" {
             self.delegate?.loginToService(self, pushWithFail: "")
@@ -77,7 +62,7 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
         }
         
         var pushYN = "Y"
-        if GlobalConst.swPush == 0 {
+        if !GlobalConst.swPush {
             pushYN = "N"
         }
         let jsonObject = ["type": "iOS", "push_yn": pushYN, "uuid": token, "userid": GlobalConst.userId]
@@ -96,14 +81,14 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
             print (returnString)
             if returnString.contains("<script language=javascript>moveTop()</script>") {
                 GlobalConst.userId = userId
-                GlobalConst.swPush = 1
+                GlobalConst.swPush = true
                 self.delegate?.loginToService(self, loginWithSuccess: "")
             } else {
                 if returnString.contains("<b>시스템 메세지입니다</b>") {
                     self.delegate?.loginToService(self, loginWithFail: "")
                 } else {
                     GlobalConst.userId = userId
-                    GlobalConst.swPush = 1
+                    GlobalConst.swPush = true
                     self.delegate?.loginToService(self, loginWithSuccess: "")
                 }
             }

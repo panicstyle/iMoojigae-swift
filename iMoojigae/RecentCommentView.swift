@@ -9,12 +9,11 @@
 import UIKit
 import GoogleMobileAds
 
-class RecentCommentView: UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate {
+class RecentCommentView: CommonBannerView, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
-    @IBOutlet var bannerView: GADBannerView!
     var recent: String = ""
     private let refreshControl = UIRefreshControl()
     
@@ -27,21 +26,13 @@ class RecentCommentView: UIViewController, UITableViewDelegate, UITableViewDataS
         // Configure Refresh Control
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
-                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
         self.title = "최신댓글보기"
-        
-        // GoogleMobileAds
-        self.bannerView.adUnitID = GlobalConst.AdUnitID
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
         
         // Load the data.
         loadMenuData()
     }
 
-    @objc func contentSizeCategoryDidChangeNotification() {
+    @objc override func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
     }
     
@@ -49,11 +40,6 @@ class RecentCommentView: UIViewController, UITableViewDelegate, UITableViewDataS
         // Fetch Weather Data
         // Load the data.
         loadData()
-    }
-    
-    deinit {
-        // perform the deinitialization
-        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Table view data source
@@ -171,7 +157,7 @@ class RecentCommentView: UIViewController, UITableViewDelegate, UITableViewDataS
 
     //MARK: - HttpSessionRequestDelegate
     
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
+    override func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
         if httpSessionRequest.tag == GlobalConst.RECENT_MENU_DATA {
             guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                 print("json to Any Error")
@@ -201,9 +187,6 @@ class RecentCommentView: UIViewController, UITableViewDelegate, UITableViewDataS
             }
         }
 
-    }
-
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
     }
 
     //MARK: Private Methods

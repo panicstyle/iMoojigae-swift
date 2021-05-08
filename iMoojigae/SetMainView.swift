@@ -11,51 +11,28 @@ import os.log
 import WebKit
 import GoogleMobileAds
 
-class SetMainView : UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SetMainView : CommonBannerView, UITableViewDelegate, UITableViewDataSource {
     
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
-    @IBOutlet var bannerView: GADBannerView!
     
     var menuList = [MenuData]()
-    var config: WKWebViewConfiguration?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
-                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
         self.title = "설정"
         
-        // GoogleMobileAds
-        self.bannerView.adUnitID = GlobalConst.AdUnitID
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
-
         // Load the data.
         loadData()
         self.tableView.reloadData()
-
-        let db = DBInterface()
-        db.delete()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @objc func contentSizeCategoryDidChangeNotification() {
+    @objc override func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
     }
 
-    deinit {
-        // perform the deinitialization
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     //MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -63,7 +40,7 @@ class SetMainView : UIViewController, UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuList.count ?? 0
+        return menuList.count 
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

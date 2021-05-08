@@ -11,48 +11,24 @@ import os.log
 import WebKit
 import GoogleMobileAds
 
-class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, HttpSessionRequestDelegate, LoginToServiceDelegate {
+class MainView : CommonBannerView, UITableViewDelegate, UITableViewDataSource {
     
     //MARK: Properties
     
     @IBOutlet var tableView : UITableView!
-    @IBOutlet var bannerView: GADBannerView!
     
     var mainData = MainData()
-    var config: WKWebViewConfiguration?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
-                                               name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
         self.title = "게시판"
-        
-        // GoogleMobileAds
-        self.bannerView.adUnitID = GlobalConst.AdUnitID
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
         
         // Load the data.
         loadData()
-        
-        let db = DBInterface()
-        db.delete()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @objc func contentSizeCategoryDidChangeNotification() {
+    @objc override func contentSizeCategoryDidChangeNotification() {
         self.tableView.reloadData()
-    }
-
-    deinit {
-        // perform the deinitialization
-        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - Table view data source
@@ -152,7 +128,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
     
     //MARK: - HttpSessionRequestDelegate
     
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
+    override func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, didFinishLodingData data: Data) {
         guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
             print("json to Any Error")
             return
@@ -183,35 +159,7 @@ class MainView : UIViewController, UITableViewDelegate, UITableViewDataSource, H
         loginToService.Login()
     }
 
-    func httpSessionRequest(_ httpSessionRequest:HttpSessionRequest, withError error: Error) {
-    }
-
     //MARK: - LoginToServiceDelegate
-    
-    func loginToService(_ loginToService: LoginToService, loginWithSuccess result: String) {
-        print("LoginToService Success")
-    }
-    
-    func loginToService(_ loginToService: LoginToService, loginWithFail result: String) {
-        
-    }
-    
-    func loginToService(_ loginToService: LoginToService, logoutWithSuccess result: String) {
-        
-    }
-    
-    func loginToService(_ loginToService: LoginToService, logoutWithFail result: String) {
-        
-    }
-    
-    func loginToService(_ loginToService: LoginToService, pushWithSuccess result: String) {
-        
-    }
-    
-    func loginToService(_ loginToService: LoginToService, pushWithFail result: String) {
-        
-    }
-    
     
     //MARK: - User Functions
     
