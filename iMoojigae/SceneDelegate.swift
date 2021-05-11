@@ -9,10 +9,11 @@
 import UIKit
 
 @available(iOS 13.0, *)
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, UNUserNotificationCenterDelegate, ArticleViewDelegate  {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, UNUserNotificationCenterDelegate  {
 
     var window: UIWindow?
     var dUserInfo: [AnyHashable: Any]?
+    var recentView: RecentView?
 
     @available(iOS 13.0, *)
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -96,19 +97,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UNUserNotificationCente
             dUserInfo = nil
             return
         }
-        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let articleView = storyboard.instantiateViewController(withIdentifier: "ArticleView") as! ArticleView
-        articleView.boardId = boardId
-        articleView.boardNo = boardNo
-        articleView.delegate = self;
-        articleView.selectedRow = -1
-        let navigationController = self.window?.rootViewController as! UINavigationController
-        navigationController.pushViewController(articleView, animated: true)
+        
+        recentView?.showArticle(boardId: boardId, boardNo: boardNo)
         
         dUserInfo = nil
-    }
-    
-    func articleView(_ articleView: ArticleView, didDelete row: Int) {
     }
 }
 

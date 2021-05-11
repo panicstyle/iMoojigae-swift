@@ -24,10 +24,10 @@ class CommonView : UIViewController, HttpSessionRequestDelegate, LoginToServiceD
         
         if #available(iOS 13.0, *) {
             let defaults = UserDefaults.standard
-            if defaults.bool(forKey: "systemSync") {
+            if defaults.bool(forKey: GlobalConst.SYSTEM_SYNC) {
                 overrideUserInterfaceStyle = .unspecified
             } else {
-                if defaults.bool(forKey: "darkMode") {
+                if defaults.bool(forKey: GlobalConst.DARK_MODE) {
                     overrideUserInterfaceStyle = .dark
                 } else {
                     overrideUserInterfaceStyle = .light
@@ -49,29 +49,6 @@ class CommonView : UIViewController, HttpSessionRequestDelegate, LoginToServiceD
 
     @objc func contentSizeCategoryDidChangeNotification() {
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if #available(iOS 13.0, *) {
-            let defaults = UserDefaults.standard
-            if defaults.bool(forKey: "systemSync") {
-                if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                    if traitCollection.userInterfaceStyle == .dark {
-                        //Dark
-                        overrideUserInterfaceStyle = .dark
-                    }
-                    else {
-                        //Light
-                        overrideUserInterfaceStyle = .light
-                    }
-                }
-            }
-        } else {
-            // Fallback on earlier versions
-        }
-    }
-
 
     deinit {
         // perform the deinitialization
@@ -121,10 +98,10 @@ class CommonView : UIViewController, HttpSessionRequestDelegate, LoginToServiceD
     func refreshWindow() {
         if #available(iOS 13.0, *) {
             let defaults = UserDefaults.standard
-            if defaults.bool(forKey: "systemSync") {
+            if defaults.bool(forKey: GlobalConst.SYSTEM_SYNC) {
                 overrideUserInterfaceStyle = .unspecified
             } else {
-                if defaults.bool(forKey: "darkMode") {
+                if defaults.bool(forKey: GlobalConst.DARK_MODE) {
                     //Dark
                     overrideUserInterfaceStyle = .dark
                 } else {

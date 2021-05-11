@@ -67,11 +67,11 @@ class SetView : CommonView {
         
         let defaults = UserDefaults.standard
         
-        idField.text = defaults.object(forKey: "userId") as? String
-        pwField.text = defaults.object(forKey: "userPw") as? String
-        swPush.setOn(defaults.bool(forKey: "push"), animated: true);
-        systemSyncSwitch.setOn(defaults.bool(forKey: "systemSync"), animated: true);
-        darkModeSwich.setOn(defaults.bool(forKey: "darkMode"), animated: true);
+        idField.text = defaults.object(forKey: GlobalConst.USER_ID) as? String
+        pwField.text = defaults.object(forKey: GlobalConst.USER_PW) as? String
+        swPush.setOn(defaults.bool(forKey: GlobalConst.PUSH), animated: true);
+        systemSyncSwitch.setOn(defaults.bool(forKey: GlobalConst.SYSTEM_SYNC), animated: true);
+        darkModeSwich.setOn(defaults.bool(forKey: GlobalConst.DARK_MODE), animated: true);
 
         darkModeSwich.isEnabled = !systemSyncSwitch.isOn
         
@@ -159,11 +159,11 @@ class SetView : CommonView {
         
         let defaults = UserDefaults.standard
         
-        defaults.set(idField.text ?? "", forKey: "userId")
-        defaults.set(pwField.text ?? "", forKey: "userPw")
-        defaults.set(swPush.isOn, forKey: "push")
-        defaults.set(systemSyncSwitch.isOn, forKey: "systemSync")
-        defaults.set(darkModeSwich.isOn, forKey: "darkMode")
+        defaults.set(idField.text ?? "", forKey: GlobalConst.USER_ID)
+        defaults.set(pwField.text ?? "", forKey: GlobalConst.USER_PW)
+        defaults.set(swPush.isOn, forKey: GlobalConst.PUSH)
+        defaults.set(systemSyncSwitch.isOn, forKey: GlobalConst.SYSTEM_SYNC)
+        defaults.set(darkModeSwich.isOn, forKey: GlobalConst.DARK_MODE)
         
         let loginToService = LoginToService()
         loginToService.delegate = self
@@ -173,17 +173,24 @@ class SetView : CommonView {
     @IBAction func actionSystemSync(_ sender: UISwitch) {
         darkModeSwich.isEnabled = !sender.isOn
         let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: "systemSync")
+        defaults.set(sender.isOn, forKey: GlobalConst.SYSTEM_SYNC)
+        
         if #available(iOS 13.0, *) {
             if sender.isOn {
                 overrideUserInterfaceStyle = .unspecified
             } else {
-                if defaults.bool(forKey: "darkMode") {
+                if defaults.bool(forKey: GlobalConst.DARK_MODE) {
                     overrideUserInterfaceStyle = .dark
                 } else {
                     overrideUserInterfaceStyle = .light
                 }
             }
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        for (_, value) in appDelegate.commonViews{
+            let commonView = value as? CommonView
+            commonView?.refreshWindow()
         }
     }
 
@@ -197,7 +204,7 @@ class SetView : CommonView {
             
         }
         let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: "darkMode")
+        defaults.set(sender.isOn, forKey: GlobalConst.DARK_MODE)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         for (_, value) in appDelegate.commonViews{

@@ -38,4 +38,11 @@ class GlobalConst {
     
     static let RECENT_MENU_DATA = 1
     static let RECENT_ITEM_DATA = 2
+    
+    static let USER_ID = "userId"
+    static let USER_PW = "userPw"
+    static let PUSH = "push"
+    static let SYSTEM_SYNC = "systemSync"
+    static let DARK_MODE = "darkMode"
+    static let TOKEN = "token"
 }

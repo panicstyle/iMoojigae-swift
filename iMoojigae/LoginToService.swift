@@ -25,9 +25,9 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
     
     func Login() {
         let defaults = UserDefaults.standard
-        userId = defaults.object(forKey: "userId") as? String ?? ""
-        userPwd = defaults.object(forKey: "userPw") as? String ?? ""
-        push = defaults.bool(forKey: "push")
+        userId = defaults.object(forKey: GlobalConst.USER_ID) as? String ?? ""
+        userPwd = defaults.object(forKey: GlobalConst.USER_PW) as? String ?? ""
+        push = defaults.bool(forKey: GlobalConst.PUSH)
         
         let paramString = "userId=" + userId + "&userPw=" + userPwd + "&boardId=&boardNo=&page=1&categoryId=-1&returnURI=&returnBoardNo=&beforeCommand=&command=LOGIN"
 
@@ -49,7 +49,7 @@ class LoginToService: NSObject, HttpSessionRequestDelegate {
 
     func PushRegister() {
         let defaults = UserDefaults.standard
-        let token = defaults.object(forKey: "token") as? String ?? ""
+        let token = defaults.object(forKey: GlobalConst.TOKEN) as? String ?? ""
         
         if token == "" {
             self.delegate?.loginToService(self, pushWithFail: "")

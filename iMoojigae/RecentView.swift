@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMobileAds
 
-class RecentView: CommonBannerView, UITableViewDelegate, UITableViewDataSource {
+class RecentView: CommonBannerView, UITableViewDelegate, UITableViewDataSource, ArticleViewDelegate {
 
     //MARK: Properties
     
@@ -22,6 +22,19 @@ class RecentView: CommonBannerView, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // iOS13 or later
+        if #available(iOS 13.0, *) {
+            let sceneDelegate = UIApplication.shared.connectedScenes
+                .first!.delegate as! SceneDelegate
+            sceneDelegate.recentView = self
+
+        // iOS12 or earlier
+        } else {
+            // UIApplication.shared.keyWindow?.rootViewController
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.recentView = self
+        }
         
         tableView.addSubview(refreshControl)
         // Configure Refresh Control
@@ -200,5 +213,18 @@ class RecentView: CommonBannerView, UITableViewDelegate, UITableViewDataSource {
         httpSessionRequest.delegate = self
         httpSessionRequest.tag = GlobalConst.RECENT_ITEM_DATA
         httpSessionRequest.requestWithParam(httpMethod: "GET", resource: GlobalConst.ServerName + "/" + doLink + "?park=index&rid=50&pid=" + self.recent, param: nil, referer: "")
+    }
+    
+    public func showArticle(boardId: String, boardNo: String) {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let articleView = storyboard.instantiateViewController(withIdentifier: "ArticleView") as! ArticleView
+        articleView.boardId = boardId
+        articleView.boardNo = boardNo
+        articleView.delegate = self;
+        articleView.selectedRow = -1
+        self.navigationController?.pushViewController(articleView, animated: true)
+    }
+    
+    func articleView(_ articleView: ArticleView, didDelete row: Int) {
     }
 }

@@ -11,11 +11,12 @@ import UserNotifications
 import GoogleMobileAds
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, ArticleViewDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     var dUserInfo: [AnyHashable: Any]?
     var commonViews: [Int : Any] = [Int : Any]()
+    var recentView: RecentView?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -56,9 +57,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let userPw = String(setStorage.userPwd)
             let swPush = setStorage.swPush == 1 ? true : false
             
-            defaults.set(userId, forKey: "userId")
-            defaults.set(userPw, forKey: "userPw")
-            defaults.set(swPush, forKey: "push")
+            defaults.set(userId, forKey: GlobalConst.USER_ID)
+            defaults.set(userPw, forKey: GlobalConst.USER_PW)
+            defaults.set(swPush, forKey: GlobalConst.PUSH)
+            defaults.set(true, forKey: GlobalConst.SYSTEM_SYNC)
+            defaults.set(true, forKey: GlobalConst.DARK_MODE)
             
             let filePathName = "/\(fullPath)"
             try FileManager.default.removeItem(atPath: filePathName)
@@ -74,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let setTokenStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetTokenStorage
             token = String(setTokenStorage.token)
             
-            defaults.set(token, forKey: "token")
+            defaults.set(token, forKey: GlobalConst.TOKEN)
 
             let filePathName = "/\(fullPath2)"
             try FileManager.default.removeItem(atPath: filePathName)
@@ -126,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Token: ", token)
         
         let defaults = UserDefaults.standard
-        defaults.set(token, forKey: "token")
+        defaults.set(token, forKey: GlobalConst.TOKEN)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -161,19 +164,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             dUserInfo = nil
             return
         }
-        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let articleView = storyboard.instantiateViewController(withIdentifier: "ArticleView") as! ArticleView
-        articleView.boardId = boardId
-        articleView.boardNo = boardNo
-        articleView.delegate = self;
-        articleView.selectedRow = -1
-        let navigationController = self.window?.rootViewController as! UINavigationController
-        navigationController.pushViewController(articleView, animated: true)
+        
+        recentView?.showArticle(boardId: boardId, boardNo: boardNo)
         
         dUserInfo = nil
     }
     
-    func articleView(_ articleView: ArticleView, didDelete row: Int) {
-    }
 }
 
