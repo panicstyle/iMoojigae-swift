@@ -40,11 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
-        dUserInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable : Any]
-        if dUserInfo != nil {
-            moveToViewController()
-        }
-        
+        /*
+         이번 버전에서 저장된 로그인 및 token 정보를 새로운 저장방식으로 저장
+         */
         let defaults = UserDefaults.standard
         
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -71,11 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         let fullPath2 = paths[0].appendingPathComponent("token.dat")
-        var token = ""
         do {
             let fileData = try Data(contentsOf: fullPath2)
             let setTokenStorage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! SetTokenStorage
-            token = String(setTokenStorage.token)
+            let token = String(setTokenStorage.token)
             
             defaults.set(token, forKey: GlobalConst.TOKEN)
 
@@ -85,7 +82,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } catch {
             print("Couldn't read token.dat file")
         }
-            
+
+        /*
+         푸시가 클릭되었을 경우에 대한 처리
+         */
+        dUserInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable : Any]
+        if dUserInfo != nil {
+            moveToViewController()
+        }
+        
         return true
     }
 
