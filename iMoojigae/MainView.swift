@@ -24,6 +24,9 @@ class MainView : CommonBannerView, UITableViewDelegate, UITableViewDataSource {
         
         self.title = "게시판"
         
+        let db = DBInterface()
+        db.delete()
+        
         // Load the data.
         loadData()
     }

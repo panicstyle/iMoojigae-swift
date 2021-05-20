@@ -34,6 +34,8 @@ class SetView : CommonView {
     @IBOutlet var darkModeSwich : UISwitch!
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.title = "설정"
         
         if #available(iOS 13.0, *) {
@@ -74,8 +76,6 @@ class SetView : CommonView {
         darkModeSwich.setOn(defaults.bool(forKey: GlobalConst.DARK_MODE), animated: true);
 
         darkModeSwich.isEnabled = !systemSyncSwitch.isOn
-        
-        super.viewDidLoad()
     }
     
     @objc override func contentSizeCategoryDidChangeNotification() {

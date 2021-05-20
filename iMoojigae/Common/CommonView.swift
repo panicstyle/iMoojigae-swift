@@ -37,9 +37,6 @@ class CommonView : UIViewController, HttpSessionRequestDelegate, LoginToServiceD
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.contentSizeCategoryDidChangeNotification),
                                                name: UIContentSizeCategory.didChangeNotification, object: nil)
-        
-        let db = DBInterface()
-        db.delete()
     }
 
     override func didReceiveMemoryWarning() {
